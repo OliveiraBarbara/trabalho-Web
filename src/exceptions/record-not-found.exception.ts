@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 export class RecordNotFoundException extends HttpException {

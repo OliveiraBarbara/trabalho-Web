@@ -1,8 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Endereco } from './../../core/endereco/entities/endereco.entity';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn} from 'typeorm';
 
 @Entity()
 export class Instrutor {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   cref: number;
 
   @Column({ length: 255 })
@@ -10,4 +11,8 @@ export class Instrutor {
 
   @Column()
   telefone: string;
+
+  @ManyToMany(() => Endereco, { cascade: true, eager: true, onDelete: 'CASCADE' })
+  @JoinTable({ name: 'instrutor_tem_endereco' })
+  enderecos?: Endereco[];
 }

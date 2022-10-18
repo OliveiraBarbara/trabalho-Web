@@ -1,4 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { HttpStatus } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-inferrable-types */
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, DefaultValuePipe, ParseIntPipe, HttpCode } from '@nestjs/common';
 import { InstrutorService } from './instrutor.service';
 import { CreateInstrutorDto } from './dto/create-instrutor.dto';
 import { UpdateInstrutorDto } from './dto/update-instrutor.dto';
@@ -13,22 +15,30 @@ export class InstrutorController {
   }
 
   @Get()
-  findAll() {
-    return this.instrutorService.findAll();
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
+    @Query('search') search: string,
+    ) {
+    return this.instrutorService.findAll({page, limit}, search);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.instrutorService.findOne(+id);
+  @Get(':cref')
+  findOne(@Param('cref') cref: number) {
+    return this.instrutorService.findOne(cref);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInstrutorDto: UpdateInstrutorDto) {
-    return this.instrutorService.update(+id, updateInstrutorDto);
+  @Patch(':cref')
+  update(
+    @Param('cref', ParseIntPipe) cref: number, 
+    @Body() updateInstrutorDto: UpdateInstrutorDto) {
+    return this.instrutorService.update(cref, updateInstrutorDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.instrutorService.remove(+id);
+  @Delete(':cref')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  remove(
+    @Param('cref', ParseIntPipe) cref: number) {
+    return this.instrutorService.remove(cref);
   }
 }

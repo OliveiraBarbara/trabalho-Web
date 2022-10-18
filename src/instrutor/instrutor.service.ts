@@ -1,26 +1,68 @@
+import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate';
+import { Instrutor } from './entities/instrutor.entity';
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { CreateInstrutorDto } from './dto/create-instrutor.dto';
 import { UpdateInstrutorDto } from './dto/update-instrutor.dto';
+import { FindOptionsWhere, Repository, ILike } from 'typeorm';
+import { RecordNotFoundException } from '@exceptions';
 
 @Injectable()
 export class InstrutorService {
-  create(createInstrutorDto: CreateInstrutorDto) {
-    return 'This action adds a new instrutor';
+  enderecoRepository: any;
+
+  constructor(@InjectRepository(Instrutor) private repository: Repository<Instrutor>){}
+
+  create(createInstrutorDto: CreateInstrutorDto): Promise<Instrutor> {
+    const instrutor = this.repository.create(createInstrutorDto);
+    instrutor.name = createInstrutorDto.name;
+    instrutor.cref = createInstrutorDto.cref;
+    instrutor.telefone = createInstrutorDto.telefone;
+    instrutor.enderecos = [];
+    /*createInstrutorDto.endereco?.forEach((endereco) => {
+      instrutor.enderecos.push(this.enderecoRepository.create(endereco));
+    })*/
+    
+    return this.repository.save(instrutor);
   }
 
-  findAll() {
-    return `This action returns all instrutor`;
+  findAll(options: IPaginationOptions, search: string) {
+    const where: FindOptionsWhere<Instrutor> = {};
+
+    if(search){
+      where.name = ILike(`%${search}`);
+    }
+
+    return paginate<Instrutor>(this.repository, options, {where});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} instrutor`;
+  async findOne(cref: number) {
+    const instrutor = await this.repository.findOneBy({cref});
+
+    if(!instrutor){
+      throw new RecordNotFoundException();
+    }
+
+    return instrutor;
   }
 
-  update(id: number, updateInstrutorDto: UpdateInstrutorDto) {
-    return `This action updates a #${id} instrutor`;
+  async update(cref: number, updateInstrutorDto: UpdateInstrutorDto) {
+    await this.repository.update(cref, updateInstrutorDto);
+    const instrutor = await this.repository.findOneBy({cref});
+    if(!instrutor){
+      throw new RecordNotFoundException();
+    }
+
+    return instrutor;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} instrutor`;
+  async remove(cref: number) {
+    const instrutor = await this.repository.delete(cref);
+
+    if (!instrutor?.affected) {
+      throw new RecordNotFoundException();
+    }
+
+    return true;
   }
 }

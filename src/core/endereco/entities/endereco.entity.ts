@@ -1,5 +1,6 @@
-import { Cidade } from './../../cidades/entities/cidade.entity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { BaseEntity } from 'src/shared/entities';
+import { Cidade } from '../../cidade/entities/cidade.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum AddressType {
   RESIDENTIAL = 'Residencial',
@@ -10,7 +11,10 @@ export enum AddressType {
 }
 
 @Entity()
-export class Endereco {
+export class Endereco extends BaseEntity{
+  @PrimaryGeneratedColumn()
+  id:number;
+
   @Column()
   rua: string;
 
@@ -26,13 +30,10 @@ export class Endereco {
   @Column()
   cep: string;
 
-  @ManyToOne(() => Cidade, { eager: true })
-  cidade: Cidade;
-
-  @Column({
+  /*@Column({
     type: 'varchar',
     enum: AddressType,
     default: AddressType.RESIDENTIAL,
   })
-  tipo: AddressType;
+  tipo: AddressType;*/
 }

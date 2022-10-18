@@ -1,26 +1,53 @@
+import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
-import { CreateEstadoDto } from './dto/create-estado.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
+import { FindManyOptions, ILike, Repository } from 'typeorm';
+
 import { UpdateEstadoDto } from './dto/update-estado.dto';
+import { CreateEstadoDto } from './dto/create-estado.dto';
+import { Estado } from './entities/estado.entity';
 
 @Injectable()
-export class EstadoService {
-  create(createEstadoDto: CreateEstadoDto) {
-    return 'This action adds a new estado';
+export class EstadosService {
+  constructor(@InjectRepository(Estado) private repository: Repository<Estado>) {}
+
+  async create(createEstadoDto: CreateEstadoDto): Promise<Estado> {
+    const estado = this.repository.create(createEstadoDto);
+    return await this.repository.save(estado);
   }
 
-  findAll() {
-    return `This action returns all estado`;
+  findAll(options: IPaginationOptions, search?: string): Promise<Pagination<Estado>> {
+    const where: FindManyOptions<Estado> = {};
+    if (search) {
+      where.where = [{ name: ILike(`%${search}%`) }, { sigla: ILike(`%${search}%`) }];
+    }
+
+    return paginate<Estado>(this.repository, options, where);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} estado`;
+  async findOne(id: number): Promise<Estado> {
+    const estado = await this.repository.findOneBy({ id });
+
+    if (!estado) {
+      throw new RecordNotFoundException();
+    }
+
+    return estado;
   }
 
-  update(id: number, updateEstadoDto: UpdateEstadoDto) {
-    return `This action updates a #${id} estado`;
+  async update(id: number, updateEstadoDto: UpdateEstadoDto): Promise<Estado> {
+    await this.repository.update(id, updateEstadoDto);
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} estado`;
+  async remove(id: number): Promise<boolean> {
+    const user = await this.repository.delete(id);
+
+    if (!user?.affected) {
+      throw new RecordNotFoundException();
+    }
+
+    return true;
   }
 }

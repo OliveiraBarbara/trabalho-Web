@@ -3,7 +3,7 @@ import { CreateEnderecoDto } from './dto/create-endereco.dto';
 import { UpdateEnderecoDto } from './dto/update-endereco.dto';
 
 @Injectable()
-export class EnderecoService {
+export class EnderecosService {
   create(createEnderecoDto: CreateEnderecoDto) {
     return 'This action adds a new endereco';
   }

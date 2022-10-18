@@ -1,40 +1,33 @@
+import { CidadesModule } from './core/cidade/cidade.module';
+import { EstadosModule } from './core/estado/estado.module';
+import { Estado } from 'src/core/estado/entities/estado.entity';
+import { Cidade } from './core/cidade/entities/cidade.entity';
+import { EnderecosModule } from './core/endereco/endereco.module';
+import { Endereco } from './core/endereco/entities/endereco.entity';
+import { Instrutor } from './instrutor/entities/instrutor.entity';
 import { SharedModule } from './shared/shared.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { PreferenciaModule } from './preferencia/preferencia.module';
 import { ExercicioModule } from './exercicio/exercicio.module';
 import { InstrutorModule } from './instrutor/instrutor.module';
 import { LocalTreinamentoModule } from './local-treinamento/local-treinamento.module';
 import { PreferenciaExercicioModule } from './preferencia-exercicio/preferencia-exercicio.module';
-import { EstadoModule } from './core/estado/estado.module';
-import { CidadesModule } from './core/cidades/cidades.module';
-import { EnderecoModule } from './core/endereco/endereco.module';
 import { UserPreferenciaModule } from './user-preferencia/user-preferencia.module';
 
 @Module({
   imports: [
-    SharedModule,
     TypeOrmModule.forRoot({
       type: 'sqlite',
-      database: 'database/site',
-      entities: [__dirname + '/**/*.entity.{.ts,.js}'],
+      database: 'database/site.db',
+      entities: [Instrutor, Endereco, Cidade, Estado],
       synchronize: true,
     }),
-    UserModule,
-    PreferenciaModule,
-    ExercicioModule,
     InstrutorModule,
-    LocalTreinamentoModule,
-    PreferenciaExercicioModule,
-    EstadoModule,
-    CidadesModule,
-    EnderecoModule,
-    UserPreferenciaModule,
+    EnderecosModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

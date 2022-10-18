@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { CidadesService } from './cidades.service';
-import { CidadesController } from './cidades.controller';
+import { CidadesService } from './cidade.service';
+import { CidadesController } from './cidade.controller';
 
 @Module({
+  imports: [CidadesModule],
   controllers: [CidadesController],
   providers: [CidadesService]
 })

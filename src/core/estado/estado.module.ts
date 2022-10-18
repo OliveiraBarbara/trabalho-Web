@@ -1,9 +1,11 @@
+//import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
-import { EstadoService } from './estado.service';
-import { EstadoController } from './estado.controller';
+import { EstadosService } from './estado.service';
+import { EstadosController } from './estado.controller';
 
 @Module({
-  controllers: [EstadoController],
-  providers: [EstadoService]
+  imports: [EstadosModule],
+  controllers: [EstadosController],
+  providers: [EstadosService]
 })
-export class EstadoModule {}
+export class EstadosModule {}
