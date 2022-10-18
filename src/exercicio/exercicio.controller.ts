@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-inferrable-types */
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, DefaultValuePipe, ParseIntPipe } from '@nestjs/common';
 import { ExercicioService } from './exercicio.service';
 import { CreateExercicioDto } from './dto/create-exercicio.dto';
 import { UpdateExercicioDto } from './dto/update-exercicio.dto';
@@ -13,22 +14,26 @@ export class ExercicioController {
   }
 
   @Get()
-  findAll() {
-    return this.exercicioService.findAll();
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
+    @Query('search') search: string,
+  ) {
+    return this.exercicioService.findAll({ page, limit }, search);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.exercicioService.findOne(+id);
+  findOne(@Param('idExec', ParseIntPipe) idExec: number) {
+    return this.exercicioService.findOne(idExec);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateExercicioDto: UpdateExercicioDto) {
-    return this.exercicioService.update(+id, updateExercicioDto);
+  update(@Param('idExec', ParseIntPipe) idExec: number, @Body() updateExercicioDto: UpdateExercicioDto) {
+    return this.exercicioService.update(idExec, updateExercicioDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.exercicioService.remove(+id);
+  remove(@Param('idExec', ParseIntPipe) idExec: number) {
+    return this.exercicioService.remove(idExec);
   }
 }

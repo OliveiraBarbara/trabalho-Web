@@ -7,7 +7,7 @@ export class Instrutor {
   cref: number;
 
   @Column({ length: 255 })
-  name: string;
+  nome: string;
 
   @Column()
   telefone: string;

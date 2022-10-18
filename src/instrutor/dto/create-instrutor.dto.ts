@@ -6,7 +6,7 @@ import { Type } from 'class-transformer';
 export class CreateInstrutorDto {
   @IsString()
   @MinLength(3)
-  name: string;
+  nome: string;
 
   @IsInt()
   @IsPositive()
@@ -22,5 +22,5 @@ export class CreateInstrutorDto {
   @Type(() => CreateEnderecoDto)
   @IsArray()
   @IsOptional()
-  endereco?: Endereco[];
+  enderecos?: Endereco[];
 }

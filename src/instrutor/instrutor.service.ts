@@ -1,4 +1,4 @@
-import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate';
+import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Instrutor } from './entities/instrutor.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -10,27 +10,27 @@ import { RecordNotFoundException } from '@exceptions';
 @Injectable()
 export class InstrutorService {
   enderecoRepository: any;
-
+  
   constructor(@InjectRepository(Instrutor) private repository: Repository<Instrutor>){}
 
   create(createInstrutorDto: CreateInstrutorDto): Promise<Instrutor> {
     const instrutor = this.repository.create(createInstrutorDto);
-    instrutor.name = createInstrutorDto.name;
+    instrutor.nome = createInstrutorDto.nome;
     instrutor.cref = createInstrutorDto.cref;
     instrutor.telefone = createInstrutorDto.telefone;
     instrutor.enderecos = [];
-    /*createInstrutorDto.endereco?.forEach((endereco) => {
+    createInstrutorDto.enderecos?.forEach((endereco) => {
       instrutor.enderecos.push(this.enderecoRepository.create(endereco));
-    })*/
+    });
     
     return this.repository.save(instrutor);
   }
 
-  findAll(options: IPaginationOptions, search: string) {
+  findAll(options: IPaginationOptions, search: string): Promise<Pagination<Instrutor>> {
     const where: FindOptionsWhere<Instrutor> = {};
 
     if(search){
-      where.name = ILike(`%${search}`);
+      where.nome= ILike(`%${search}`);
     }
 
     return paginate<Instrutor>(this.repository, options, {where});
@@ -46,7 +46,7 @@ export class InstrutorService {
     return instrutor;
   }
 
-  async update(cref: number, updateInstrutorDto: UpdateInstrutorDto) {
+  async update(cref: number, updateInstrutorDto: UpdateInstrutorDto): Promise<Instrutor> {
     await this.repository.update(cref, updateInstrutorDto);
     const instrutor = await this.repository.findOneBy({cref});
     if(!instrutor){
@@ -56,7 +56,7 @@ export class InstrutorService {
     return instrutor;
   }
 
-  async remove(cref: number) {
+  async remove(cref: number): Promise<boolean> {
     const instrutor = await this.repository.delete(cref);
 
     if (!instrutor?.affected) {
