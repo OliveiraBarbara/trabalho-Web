@@ -1,3 +1,5 @@
+import { LocalTreinamentoModule } from './local-treinamento/local-treinamento.module';
+import { LocalTreinamento } from './local-treinamento/entities/local-treinamento.entity';
 import { Exercicio } from './exercicio/entities/exercicio.entity';
 import { Preferencia } from './preferencia/entities/preferencia.entity';
 import { EnderecosModule } from './core/endereco/endereco.module';
@@ -14,13 +16,14 @@ import { InstrutorModule } from './instrutor/instrutor.module';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'database/site.db',
-      entities: [Instrutor, Endereco, Preferencia, Exercicio],
+      entities: [Instrutor, Endereco, Preferencia, Exercicio, LocalTreinamento],
       synchronize: true,
     }),
     InstrutorModule,
     EnderecosModule,
     PreferenciaModule,
     ExercicioModule,
+    LocalTreinamentoModule,
   ],
   controllers: [],
   providers: [],

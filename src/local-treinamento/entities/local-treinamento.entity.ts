@@ -5,7 +5,10 @@ export class LocalTreinamento {
   @PrimaryGeneratedColumn()
   idLocal: number;
 
-  @Column({ length: 255 })
+  @Column()
+  nome: string;
+  
+  @Column()
   valor: number;
 
   @Column()
