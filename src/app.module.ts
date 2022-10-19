@@ -26,7 +26,7 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    //ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'database/site.db',
@@ -53,9 +53,8 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
     PreferenciaExercicioModule,
     UsuarioEnderecoModule,
     InstrutorEnderecoModule,
-    AuthModule,
   ],
   controllers: [],
-  providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }],
+  //  providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }],
 })
 export class AppModule {}
