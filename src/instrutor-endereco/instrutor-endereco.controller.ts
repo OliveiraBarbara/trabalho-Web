@@ -1,11 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-inferrable-types */
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { InstrutorEnderecoService } from './instrutor-endereco.service';
 import { CreateInstrutorEnderecoDto } from './dto/create-instrutor-endereco.dto';
 import { UpdateInstrutorEnderecoDto } from './dto/update-instrutor-endereco.dto';
 
 @Controller('instrutor-endereco')
 export class InstrutorEnderecoController {
-  constructor(private readonly instrutorEnderecoService: InstrutorEnderecoService) {}
+  constructor(
+    private readonly instrutorEnderecoService: InstrutorEnderecoService,
+  ) {}
 
   @Post()
   create(@Body() createInstrutorEnderecoDto: CreateInstrutorEnderecoDto) {
@@ -13,22 +29,33 @@ export class InstrutorEnderecoController {
   }
 
   @Get()
-  findAll() {
-    return this.instrutorEnderecoService.findAll();
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
+    @Query('search') search: string,
+  ) {
+    return this.instrutorEnderecoService.findAll({ page, limit }, search);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.instrutorEnderecoService.findOne(+id);
+  @Get(':idIE')
+  findOne(@Param('idIE') idIE: number) {
+    return this.instrutorEnderecoService.findOne(idIE);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInstrutorEnderecoDto: UpdateInstrutorEnderecoDto) {
-    return this.instrutorEnderecoService.update(+id, updateInstrutorEnderecoDto);
+  @Patch(':idIE')
+  update(
+    @Param('idIE') idIE: number,
+    @Body() updateInstrutorEnderecoDto: UpdateInstrutorEnderecoDto,
+  ) {
+    return this.instrutorEnderecoService.update(
+      idIE,
+      updateInstrutorEnderecoDto,
+    );
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.instrutorEnderecoService.remove(+id);
+  @Delete(':idIE')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  remove(@Param('idIE', ParseIntPipe) idIE: number) {
+    return this.instrutorEnderecoService.remove(idIE);
   }
 }

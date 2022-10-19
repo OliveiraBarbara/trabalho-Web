@@ -1,3 +1,4 @@
+import { InstrutorEndereco } from './instrutor-endereco/entities/instrutor-endereco.entity';
 import { PreferenciaExercicioModule } from './preferencia-exercicio/preferencia-exercicio.module';
 import { UsuarioPreferenciaModule } from './usuario-preferencia/usuario-preferencia.module';
 import { UsuarioPreferencia } from './usuario-preferencia/entities/usuario-preferencia.entity';
@@ -18,10 +19,14 @@ import { Usuario } from './usuario/entities/usuario.entity';
 import { UsuarioModule } from './usuario/usuario.module';
 import { UsuarioEnderecoModule } from './usuario-endereco/usuario-endereco.module';
 import { InstrutorEnderecoModule } from './instrutor-endereco/instrutor-endereco.module';
-import { LocalInstrutorModule } from './local-instrutor/local-instrutor.module';
+import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'database/site.db',
@@ -34,6 +39,7 @@ import { LocalInstrutorModule } from './local-instrutor/local-instrutor.module';
         Preferencia,
         PreferenciaExercicio,
         UsuarioPreferencia,
+        InstrutorEndereco,
       ],
       synchronize: true,
     }),
@@ -47,9 +53,9 @@ import { LocalInstrutorModule } from './local-instrutor/local-instrutor.module';
     PreferenciaExercicioModule,
     UsuarioEnderecoModule,
     InstrutorEnderecoModule,
-    LocalInstrutorModule,
+    AuthModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }],
 })
 export class AppModule {}
