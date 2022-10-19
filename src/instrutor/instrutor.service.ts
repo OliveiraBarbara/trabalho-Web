@@ -6,15 +6,17 @@ import { CreateInstrutorDto } from './dto/create-instrutor.dto';
 import { UpdateInstrutorDto } from './dto/update-instrutor.dto';
 import { FindOptionsWhere, Repository, ILike } from 'typeorm';
 import { RecordNotFoundException } from '@exceptions';
+import { Endereco } from 'src/endereco/entities/endereco.entity';
 
 @Injectable()
-export class InstrutorService {
-  enderecoRepository: any;
-  
-  constructor(@InjectRepository(Instrutor) private repository: Repository<Instrutor>){}
+export class InstrutorService {  
+  constructor(
+    @InjectRepository(Instrutor) private repository: Repository<Instrutor>,
+    @InjectRepository(Endereco) private enderecoRepository: Repository<Endereco>
+  ){}
 
   create(createInstrutorDto: CreateInstrutorDto): Promise<Instrutor> {
-    const instrutor = this.repository.create(createInstrutorDto);
+    const instrutor: Instrutor = this.repository.create(createInstrutorDto);
     instrutor.nome = createInstrutorDto.nome;
     instrutor.cref = createInstrutorDto.cref;
     instrutor.telefone = createInstrutorDto.telefone;
@@ -22,7 +24,6 @@ export class InstrutorService {
     createInstrutorDto.enderecos?.forEach((endereco) => {
       instrutor.enderecos.push(this.enderecoRepository.create(endereco));
     });
-    
     return this.repository.save(instrutor);
   }
 
@@ -36,8 +37,8 @@ export class InstrutorService {
     return paginate<Instrutor>(this.repository, options, {where});
   }
 
-  async findOne(cref: number) {
-    const instrutor = await this.repository.findOneBy({cref});
+  async findOne(id: number) {
+    const instrutor = await this.repository.findOneBy({id});
 
     if(!instrutor){
       throw new RecordNotFoundException();
@@ -46,9 +47,9 @@ export class InstrutorService {
     return instrutor;
   }
 
-  async update(cref: number, updateInstrutorDto: UpdateInstrutorDto): Promise<Instrutor> {
-    await this.repository.update(cref, updateInstrutorDto);
-    const instrutor = await this.repository.findOneBy({cref});
+  async update(id: number, updateInstrutorDto: UpdateInstrutorDto): Promise<Instrutor> {
+    await this.repository.update(id, updateInstrutorDto);
+    const instrutor = await this.repository.findOneBy({id});
     if(!instrutor){
       throw new RecordNotFoundException();
     }
@@ -56,8 +57,8 @@ export class InstrutorService {
     return instrutor;
   }
 
-  async remove(cref: number): Promise<boolean> {
-    const instrutor = await this.repository.delete(cref);
+  async remove(id: number): Promise<boolean> {
+    const instrutor = await this.repository.delete(id);
 
     if (!instrutor?.affected) {
       throw new RecordNotFoundException();

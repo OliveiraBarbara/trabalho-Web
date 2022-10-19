@@ -5,8 +5,9 @@ import { EnderecosController } from './endereco.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Endereco]), EnderecosModule],
+  imports: [TypeOrmModule.forFeature([Endereco])],
   controllers: [EnderecosController],
-  providers: [EnderecosService]
+  providers: [EnderecosService],
+  exports: [TypeOrmModule],
 })
 export class EnderecosModule {}

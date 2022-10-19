@@ -19,6 +19,7 @@ export class EnderecosService {
     endereco.complemento = createEnderecoDto.complemento;
     endereco.cep = createEnderecoDto.cep;
     endereco.cidade = createEnderecoDto.cidade;
+    endereco.estado = createEnderecoDto.estado;
 
     return this.repository.save(endereco);
   }

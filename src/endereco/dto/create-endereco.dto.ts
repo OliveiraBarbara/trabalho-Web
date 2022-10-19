@@ -1,19 +1,13 @@
-import { Type } from 'class-transformer';
-import { RelationEntityDto } from 'src/shared/dto/relation-entity.dto';
 import {
   IsInt,
   IsNotEmpty,
-  IsNotEmptyObject,
-  IsObject,
   IsOptional,
   IsString,
   MinLength,
-  ValidateNested,
 } from 'class-validator';
 
 export class CreateEnderecoDto {
   @IsString()
-  @MinLength(3)
   @IsNotEmpty()
   rua: string;
 
@@ -38,9 +32,14 @@ export class CreateEnderecoDto {
   @Type(() => RelationEntityDto)
   @IsObject()
   @IsDefined()
-  @IsNotEmptyObject()*/
+  @IsNotEmptyObject()
+  cidade: Cidade;*/
+
   @IsString()
-  @MinLength(3)
   @IsNotEmpty()
   cidade: string;
+
+  @IsString()
+  @IsNotEmpty()
+  estado: string;
 }

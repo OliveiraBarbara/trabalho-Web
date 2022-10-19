@@ -1,9 +1,9 @@
 import { Preferencia } from './../../preferencia/entities/preferencia.entity';
 import { User } from './../../user/entities/user.entity';
-import { Column, Entity, ManyToMany } from 'typeorm';
+import { BaseEntity, Column, Entity, ManyToMany } from 'typeorm';
 
 @Entity()
-export class UserPreferencia {
+export class UserPreferencia extends BaseEntity {
   @ManyToMany(() => User, { eager: true })
   cpf: User;
 

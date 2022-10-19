@@ -2,8 +2,8 @@ import { LocalTreinamentoModule } from './local-treinamento/local-treinamento.mo
 import { LocalTreinamento } from './local-treinamento/entities/local-treinamento.entity';
 import { Exercicio } from './exercicio/entities/exercicio.entity';
 import { Preferencia } from './preferencia/entities/preferencia.entity';
-import { EnderecosModule } from './core/endereco/endereco.module';
-import { Endereco } from './core/endereco/entities/endereco.entity';
+import { EnderecosModule } from './endereco/endereco.module';
+import { Endereco } from './endereco/entities/endereco.entity';
 import { Instrutor } from './instrutor/entities/instrutor.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';

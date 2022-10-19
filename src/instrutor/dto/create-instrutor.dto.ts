@@ -1,5 +1,5 @@
-import { CreateEnderecoDto } from './../../core/endereco/dto/create-endereco.dto';
-import { Endereco } from './../../core/endereco/entities/endereco.entity';
+import { CreateEnderecoDto } from '../../endereco/dto/create-endereco.dto';
+import { Endereco } from '../../endereco/entities/endereco.entity';
 import { IsArray, IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, MaxLength, Min, MinLength, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 

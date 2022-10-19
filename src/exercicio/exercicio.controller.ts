@@ -23,17 +23,17 @@ export class ExercicioController {
   }
 
   @Get(':id')
-  findOne(@Param('idExec', ParseIntPipe) idExec: number) {
+  findOne(@Param('id', ParseIntPipe) idExec: number) {
     return this.exercicioService.findOne(idExec);
   }
 
   @Patch(':id')
-  update(@Param('idExec', ParseIntPipe) idExec: number, @Body() updateExercicioDto: UpdateExercicioDto) {
+  update(@Param('id', ParseIntPipe) idExec: number, @Body() updateExercicioDto: UpdateExercicioDto) {
     return this.exercicioService.update(idExec, updateExercicioDto);
   }
 
   @Delete(':id')
-  remove(@Param('idExec', ParseIntPipe) idExec: number) {
+  remove(@Param('id', ParseIntPipe) idExec: number) {
     return this.exercicioService.remove(idExec);
   }
 }

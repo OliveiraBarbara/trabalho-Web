@@ -12,9 +12,12 @@ import { Estado } from './entities/estado.entity';
 export class EstadosService {
   constructor(@InjectRepository(Estado) private repository: Repository<Estado>) {}
 
-  async create(createEstadoDto: CreateEstadoDto): Promise<Estado> {
+  create(createEstadoDto: CreateEstadoDto): Promise<Estado> {
     const estado = this.repository.create(createEstadoDto);
-    return await this.repository.save(estado);
+    estado.name = createEstadoDto.name;
+    estado.sigla = createEstadoDto.sigla;
+    estado.cidade = createEstadoDto.cidade;
+    return this.repository.save(estado);
   }
 
   findAll(options: IPaginationOptions, search?: string): Promise<Pagination<Estado>> {

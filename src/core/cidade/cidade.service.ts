@@ -13,13 +13,16 @@ export class CidadesService {
 
   create(createCidadeDto: CreateCidadeDto): Promise<Cidade> {
     const cidade = this.repository.create(createCidadeDto);
+    cidade.nome = createCidadeDto.nome;
+    cidade.estado = createCidadeDto.estado;
+    cidade.enderecos = createCidadeDto.enderecos;
     return this.repository.save(cidade);
   }
 
   findAll(options: IPaginationOptions, search?: string): Promise<Pagination<Cidade>> {
     const where: FindManyOptions<Cidade> = {};
     if (search) {
-      where.where = [{ name: ILike(`%${search}%`) }];
+      where.where = [{ nome: ILike(`%${search}%`) }];
     }
 
     return paginate<Cidade>(this.repository, options, where);
