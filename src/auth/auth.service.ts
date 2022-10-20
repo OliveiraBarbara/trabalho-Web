@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@nestjs/common';
 import { compareSync } from 'bcrypt';
-import { Usuario } from './usuario/entities/usuario.entity';
 import { UsuarioPayload } from './models/user-payload.model';
 import { UsuarioToken } from './models/user-token.model';
 import { JwtService } from '@nestjs/jwt';
-import { UsuarioService } from './usuario/usuario.service';
+import { UsuarioService } from 'src/usuario/usuario.service';
+import { Usuario } from 'src/usuario/entities/usuario.entity';
 
 @Injectable()
 export class AuthService {

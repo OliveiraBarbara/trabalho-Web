@@ -1,12 +1,27 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, DefaultValuePipe, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { LocalTreinamentoService } from './local-treinamento.service';
 import { CreateLocalTreinamentoDto } from './dto/create-local-treinamento.dto';
 import { UpdateLocalTreinamentoDto } from './dto/update-local-treinamento.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('local-treinamento')
 @Controller('local-treinamento')
 export class LocalTreinamentoController {
-  constructor(private readonly localTreinamentoService: LocalTreinamentoService) {}
+  constructor(
+    private readonly localTreinamentoService: LocalTreinamentoService,
+  ) {}
 
   @Post()
   create(@Body() createLocalTreinamentoDto: CreateLocalTreinamentoDto) {
@@ -28,8 +43,14 @@ export class LocalTreinamentoController {
   }
 
   @Patch(':id')
-  update(@Param('id') idLocal: number, @Body() updateLocalTreinamentoDto: UpdateLocalTreinamentoDto) {
-    return this.localTreinamentoService.update(idLocal, updateLocalTreinamentoDto);
+  update(
+    @Param('id') idLocal: number,
+    @Body() updateLocalTreinamentoDto: UpdateLocalTreinamentoDto,
+  ) {
+    return this.localTreinamentoService.update(
+      idLocal,
+      updateLocalTreinamentoDto,
+    );
   }
 
   @Delete(':id')

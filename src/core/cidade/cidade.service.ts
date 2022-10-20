@@ -4,22 +4,31 @@ import { Cidade } from './entities/cidade.entity';
 import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
+import {
+  IPaginationOptions,
+  paginate,
+  Pagination,
+} from 'nestjs-typeorm-paginate';
 import { FindManyOptions, ILike, Repository } from 'typeorm';
 
 @Injectable()
 export class CidadesService {
-  constructor(@InjectRepository(Cidade) private repository: Repository<Cidade>) {}
+  constructor(
+    @InjectRepository(Cidade) private repository: Repository<Cidade>,
+  ) {}
 
   create(createCidadeDto: CreateCidadeDto): Promise<Cidade> {
     const cidade = this.repository.create(createCidadeDto);
-    cidade.nome = createCidadeDto.nome;
-    cidade.estado = createCidadeDto.estado;
+    /*cidade.nome = createCidadeDto.nome;
+    cidade.estado = createCidadeDto.estado;*/
     cidade.enderecos = createCidadeDto.enderecos;
     return this.repository.save(cidade);
   }
 
-  findAll(options: IPaginationOptions, search?: string): Promise<Pagination<Cidade>> {
+  findAll(
+    options: IPaginationOptions,
+    search?: string,
+  ): Promise<Pagination<Cidade>> {
     const where: FindManyOptions<Cidade> = {};
     if (search) {
       where.where = [{ nome: ILike(`%${search}%`) }];

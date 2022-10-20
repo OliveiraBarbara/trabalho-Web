@@ -1,9 +1,22 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, DefaultValuePipe, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { ExercicioService } from './exercicio.service';
 import { CreateExercicioDto } from './dto/create-exercicio.dto';
 import { UpdateExercicioDto } from './dto/update-exercicio.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('exercicio')
 @Controller('exercicio')
 export class ExercicioController {
   constructor(private readonly exercicioService: ExercicioService) {}
@@ -28,7 +41,10 @@ export class ExercicioController {
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) idExec: number, @Body() updateExercicioDto: UpdateExercicioDto) {
+  update(
+    @Param('id', ParseIntPipe) idExec: number,
+    @Body() updateExercicioDto: UpdateExercicioDto,
+  ) {
     return this.exercicioService.update(idExec, updateExercicioDto);
   }
 

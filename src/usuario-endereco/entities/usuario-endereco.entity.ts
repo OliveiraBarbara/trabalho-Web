@@ -1,5 +1,5 @@
 import { Usuario } from 'src/usuario/entities/usuario.entity';
-import { Endereco } from 'src/endereco/entities/endereco.entity';
+import { Endereco } from 'src/core/endereco/entities/endereco.entity';
 import {
   BaseEntity,
   Column,

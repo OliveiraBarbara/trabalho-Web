@@ -14,7 +14,9 @@ import {
 import { UsuarioPreferenciaService } from './usuario-preferencia.service';
 import { CreateUsuarioPreferenciaDto } from './dto/create-usuario-preferencia.dto';
 import { UpdateUsuarioPreferenciaDto } from './dto/update-usuario-preferencia.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('usuario-preferencia')
 @Controller('usuario-preferencia')
 export class UsuarioPreferenciaController {
   constructor(

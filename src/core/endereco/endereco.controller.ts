@@ -1,11 +1,24 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 import { HttpStatus, HttpCode } from '@nestjs/common';
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, DefaultValuePipe, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { EnderecosService } from './endereco.service';
 import { CreateEnderecoDto } from './dto/create-endereco.dto';
 import { UpdateEnderecoDto } from './dto/update-endereco.dto';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('endereco')
+@ApiTags('endereco')
+@Controller('enderecos')
 export class EnderecosController {
   constructor(private readonly enderecoService: EnderecosService) {}
 
@@ -29,7 +42,10 @@ export class EnderecosController {
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateEnderecoDto: UpdateEnderecoDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateEnderecoDto: UpdateEnderecoDto,
+  ) {
     return this.enderecoService.update(id, updateEnderecoDto);
   }
 

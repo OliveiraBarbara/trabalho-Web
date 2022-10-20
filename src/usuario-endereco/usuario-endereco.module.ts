@@ -5,11 +5,7 @@ import { UsuarioEnderecoController } from './usuario-endereco.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([UsuarioEndereco]),
-    UsuarioEndereco,
-    UsuarioEnderecoModule,
-  ],
+  imports: [TypeOrmModule.forFeature([UsuarioEndereco]), UsuarioEndereco],
   controllers: [UsuarioEnderecoController],
   providers: [UsuarioEnderecoService],
   exports: [TypeOrmModule],

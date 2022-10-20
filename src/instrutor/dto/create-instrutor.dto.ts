@@ -1,6 +1,19 @@
-import { CreateEnderecoDto } from '../../endereco/dto/create-endereco.dto';
-import { Endereco } from '../../endereco/entities/endereco.entity';
-import { IsArray, IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, MaxLength, Min, MinLength, ValidateNested } from 'class-validator';
+import { CreateEnderecoDto } from '../../core/endereco/dto/create-endereco.dto';
+import { Endereco } from '../../core/endereco/entities/endereco.entity';
+import {
+  IsArray,
+  IsEmail,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsPositive,
+  IsString,
+  Matches,
+  MaxLength,
+  Min,
+  MinLength,
+  ValidateNested,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateInstrutorDto {
@@ -17,6 +30,17 @@ export class CreateInstrutorDto {
   @IsString()
   @MaxLength(11)
   telefone: string;
+
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  @MinLength(4)
+  @MaxLength(20)
+  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+    message: 'senha muito fraca',
+  })
+  senha: string;
 
   @ValidateNested({ each: true })
   @Type(() => CreateEnderecoDto)

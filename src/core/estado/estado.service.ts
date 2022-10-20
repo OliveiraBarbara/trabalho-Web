@@ -1,7 +1,11 @@
 import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
+import {
+  IPaginationOptions,
+  paginate,
+  Pagination,
+} from 'nestjs-typeorm-paginate';
 import { FindManyOptions, ILike, Repository } from 'typeorm';
 
 import { UpdateEstadoDto } from './dto/update-estado.dto';
@@ -10,20 +14,28 @@ import { Estado } from './entities/estado.entity';
 
 @Injectable()
 export class EstadosService {
-  constructor(@InjectRepository(Estado) private repository: Repository<Estado>) {}
+  constructor(
+    @InjectRepository(Estado) private repository: Repository<Estado>,
+  ) {}
 
   create(createEstadoDto: CreateEstadoDto): Promise<Estado> {
     const estado = this.repository.create(createEstadoDto);
-    estado.name = createEstadoDto.name;
+    /*estado.nome = createEstadoDto.nome;
     estado.sigla = createEstadoDto.sigla;
-    estado.cidade = createEstadoDto.cidade;
+    estado.cidade = createEstadoDto.cidade;*/
     return this.repository.save(estado);
   }
 
-  findAll(options: IPaginationOptions, search?: string): Promise<Pagination<Estado>> {
+  findAll(
+    options: IPaginationOptions,
+    search?: string,
+  ): Promise<Pagination<Estado>> {
     const where: FindManyOptions<Estado> = {};
     if (search) {
-      where.where = [{ name: ILike(`%${search}%`) }, { sigla: ILike(`%${search}%`) }];
+      where.where = [
+        { nome: ILike(`%${search}%`) },
+        { sigla: ILike(`%${search}%`) },
+      ];
     }
 
     return paginate<Estado>(this.repository, options, where);

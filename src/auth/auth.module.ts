@@ -2,10 +2,10 @@ import { LocalStrategy } from './strategies/local.strategies';
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { UsuarioModule } from './usuario/usuario.module';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { UsuarioModule } from 'src/usuario/usuario.module';
 
 @Module({
   imports: [
@@ -24,3 +24,18 @@ import { JwtStrategy } from './strategies/jwt.strategy';
   providers: [AuthService, LocalStrategy, JwtStrategy],
 })
 export class AuthModule {}
+
+/*@Module({
+  imports: [
+    UsuarioModule,
+    PassportModule,
+    JwtModule.register({
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '1h' },
+    }),
+  ],
+  controllers: [AuthController],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
+  exports: [AuthService],
+})
+export class AuthModule {}*/

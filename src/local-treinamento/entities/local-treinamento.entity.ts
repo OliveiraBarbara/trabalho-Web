@@ -7,7 +7,7 @@ export class LocalTreinamento extends BaseEntity {
 
   @Column()
   nome: string;
-  
+
   @Column()
   valor: number;
 

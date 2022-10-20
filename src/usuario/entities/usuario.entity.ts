@@ -1,18 +1,10 @@
-import { Endereco } from 'src/endereco/entities/endereco.entity';
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { hashSync } from 'bcrypt';
+import { Endereco } from 'src/core/endereco/entities/endereco.entity';
+import { BaseEntity } from 'src/shared/entities';
+import { BeforeInsert, Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 
 @Entity()
 export class Usuario extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  idUsuario: number;
-
   @Column()
   cpf: string;
 
@@ -22,6 +14,12 @@ export class Usuario extends BaseEntity {
   @Column()
   telefone: string;
 
+  @Column({ unique: true })
+  email: string;
+
+  @Column({ select: false })
+  senha?: string;
+
   @ManyToMany(() => Endereco, {
     cascade: true,
     eager: true,
@@ -29,4 +27,9 @@ export class Usuario extends BaseEntity {
   })
   @JoinTable({ name: 'usuario_tem_endereco' })
   enderecos?: Endereco[];
+
+  @BeforeInsert()
+  hashPassword() {
+    this.senha = hashSync(this.senha, 10);
+  }
 }

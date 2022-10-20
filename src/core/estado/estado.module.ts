@@ -7,8 +7,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Estado } from 'src/core/estado/entities/estado.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Estado]), EstadosModule, Cidade],
+  imports: [TypeOrmModule.forFeature([Estado]), Cidade],
   controllers: [EstadosController],
-  providers: [EstadosService]
+  providers: [EstadosService],
 })
 export class EstadosModule {}

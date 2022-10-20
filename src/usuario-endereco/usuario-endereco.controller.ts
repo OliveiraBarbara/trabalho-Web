@@ -16,7 +16,9 @@ import {
 import { UsuarioEnderecoService } from './usuario-endereco.service';
 import { CreateUsuarioEnderecoDto } from './dto/create-usuario-endereco.dto';
 import { UpdateUsuarioEnderecoDto } from './dto/update-usuario-endereco.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('usuario-endereco')
 @Controller('usuario-endereco')
 export class UsuarioEnderecoController {
   constructor(

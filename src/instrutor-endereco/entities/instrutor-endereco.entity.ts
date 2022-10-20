@@ -1,18 +1,10 @@
-import { Instrutor } from './../../instrutor/entities/instrutor.entity';
-import { Endereco } from 'src/endereco/entities/endereco.entity';
-import {
-  BaseEntity,
-  Column,
-  ManyToMany,
-  JoinTable,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { BaseEntity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 export class InstrutorEndereco extends BaseEntity {
   @PrimaryGeneratedColumn()
   idIE: number;
 
-  @ManyToMany(() => Endereco, {
+  /*@ManyToMany(() => Endereco, {
     cascade: true,
     eager: true,
     onDelete: 'CASCADE',
@@ -26,7 +18,7 @@ export class InstrutorEndereco extends BaseEntity {
     onDelete: 'CASCADE',
   })
   @JoinTable({ name: 'instrutor_tem_endereco' })
-  id: Instrutor;
+  id: Instrutor;*/
 
   @Column()
   tipo: string;

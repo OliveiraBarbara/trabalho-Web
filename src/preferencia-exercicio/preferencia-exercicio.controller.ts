@@ -16,7 +16,9 @@ import {
 import { PreferenciaExercicioService } from './preferencia-exercicio.service';
 import { CreatePreferenciaExercicioDto } from './dto/create-preferencia-exercicio.dto';
 import { UpdatePreferenciaExercicioDto } from './dto/update-preferencia-exercicio.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('preferencia-exercicio')
 @Controller('preferencia-exercicio')
 export class PreferenciaExercicioController {
   constructor(

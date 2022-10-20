@@ -1,8 +1,18 @@
-import { Endereco } from '../../../endereco/entities/endereco.entity';
+//import { Endereco } from '../../endereco/entities/endereco.entity';
 import { Estado } from 'src/core/estado/entities/estado.entity';
 import { Type } from 'class-transformer';
-import { IsArray, IsDefined, IsNotEmpty, IsNotEmptyObject, IsObject, IsString, MinLength, ValidateNested } from 'class-validator';
+import {
+  IsArray,
+  IsDefined,
+  IsNotEmpty,
+  IsNotEmptyObject,
+  IsObject,
+  IsString,
+  MinLength,
+  ValidateNested,
+} from 'class-validator';
 import { RelationEntityDto } from 'src/shared/dto/relation-entity.dto';
+import { Endereco } from 'src/core/endereco/entities/endereco.entity';
 
 export class CreateCidadeDto {
   @IsString()

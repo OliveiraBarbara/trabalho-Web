@@ -5,8 +5,8 @@ import { PreferenciaController } from './preferencia.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Preferencia]), PreferenciaModule],
+  imports: [TypeOrmModule.forFeature([Preferencia])],
   controllers: [PreferenciaController],
-  providers: [PreferenciaService]
+  providers: [PreferenciaService],
 })
 export class PreferenciaModule {}

@@ -16,7 +16,9 @@ import {
 import { InstrutorService } from './instrutor.service';
 import { CreateInstrutorDto } from './dto/create-instrutor.dto';
 import { UpdateInstrutorDto } from './dto/update-instrutor.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('instrutor')
 @Controller('instrutor')
 export class InstrutorController {
   constructor(private readonly instrutorService: InstrutorService) {}

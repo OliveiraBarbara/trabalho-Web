@@ -1,16 +1,19 @@
-import { Usuario } from 'src/usuario/entities/usuario.entity';
+/* eslint-disable @typescript-eslint/no-inferrable-types */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateUsuarioDto } from './dto/create-usuario.dto';
-import { UpdateUsuarioDto } from './dto/update-usuario.dto';
-import { Endereco } from 'src/endereco/entities/endereco.entity';
-import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import {
   IPaginationOptions,
   paginate,
   Pagination,
 } from 'nestjs-typeorm-paginate';
-import { RecordNotFoundException } from '@exceptions';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
+
+import { Usuario } from './entities/usuario.entity';
+import { CreateUsuarioDto } from './dto/create-usuario.dto';
+import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { Endereco } from 'src/core/endereco/entities/endereco.entity';
 
 @Injectable()
 export class UsuarioService {
@@ -20,11 +23,13 @@ export class UsuarioService {
     private enderecoRepository: Repository<Endereco>,
   ) {}
 
-  create(createUsuarioDto: CreateUsuarioDto): Promise<Usuario> {
+  async create(createUsuarioDto: CreateUsuarioDto): Promise<Usuario> {
     const usuario: Usuario = this.repository.create(createUsuarioDto);
     usuario.nome = createUsuarioDto.nome;
     usuario.cpf = createUsuarioDto.cpf;
     usuario.telefone = createUsuarioDto.telefone;
+    usuario.email = createUsuarioDto.email;
+    const { senha, ...result } = await this.repository.save(usuario);
     usuario.enderecos = [];
     createUsuarioDto.enderecos?.forEach((endereco) => {
       usuario.enderecos.push(this.enderecoRepository.create(endereco));
@@ -45,8 +50,8 @@ export class UsuarioService {
     return paginate<Usuario>(this.repository, options, { where });
   }
 
-  async findOne(idUsuario: number) {
-    const usuario = await this.repository.findOneBy({ idUsuario });
+  async findOne(id: number) {
+    const usuario = await this.repository.findOneBy({ id });
 
     if (!usuario) {
       throw new RecordNotFoundException();
@@ -55,12 +60,30 @@ export class UsuarioService {
     return usuario;
   }
 
+  async findByEmail(
+    email: string,
+    includePassowrd: boolean = false,
+  ): Promise<Usuario> {
+    const usuario = await this.repository
+      .createQueryBuilder('usuario')
+      .addSelect('usuario.password')
+      .where('usuario.email = :email', { email })
+      .getOne();
+
+    if (includePassowrd) {
+      return usuario;
+    } else {
+      const { senha, ...result } = usuario;
+      return result as Usuario;
+    }
+  }
+
   async update(
-    idUsuario: number,
+    id: number,
     updateUsuarioDto: UpdateUsuarioDto,
   ): Promise<Usuario> {
-    await this.repository.update(idUsuario, updateUsuarioDto);
-    const usuario = await this.repository.findOneBy({ idUsuario });
+    await this.repository.update(id, updateUsuarioDto);
+    const usuario = await this.repository.findOneBy({ id });
     if (!usuario) {
       throw new RecordNotFoundException();
     }

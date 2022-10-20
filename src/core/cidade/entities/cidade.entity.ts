@@ -1,24 +1,21 @@
-import { Endereco } from '../../../endereco/entities/endereco.entity';
-//import { BaseEntity } from 'src/shared/entities';
+//import { Endereco } from '../../endereco/entities/endereco.entity';
+import { BaseEntity } from 'src/shared/entities';
 import { Estado } from 'src/core/estado/entities/estado.entity';
-import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, Unique } from 'typeorm';
+import { Endereco } from 'src/core/endereco/entities/endereco.entity';
 
 @Entity()
 @Unique(['nome', 'estado'])
-export class Cidade extends BaseEntity{
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Cidade extends BaseEntity {
   @Column()
   nome: string;
 
-  @ManyToOne(() => Estado, (estado) => estado.cidade)
+  @ManyToOne(() => Estado, { eager: true })
   estado: Estado;
 
-  @OneToMany(() => Endereco, (endereco) => endereco.cidade,{
-    cascade:true,
+  @OneToMany(() => Endereco, (endereco) => endereco.cidade, {
+    cascade: true,
     eager: true,
   })
   enderecos: Endereco[];
-
 }

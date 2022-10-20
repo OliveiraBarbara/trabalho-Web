@@ -1,9 +1,19 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
-import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  DefaultValuePipe,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { CreateEstadoDto } from './dto/create-estado.dto';
 import { UpdateEstadoDto } from './dto/update-estado.dto';
 import { EstadosService } from './estado.service';
-
 
 @Controller('estados')
 export class EstadosController {
@@ -29,7 +39,10 @@ export class EstadosController {
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateStateDto: UpdateEstadoDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateStateDto: UpdateEstadoDto,
+  ) {
     return this.estadosService.update(id, updateStateDto);
   }
 

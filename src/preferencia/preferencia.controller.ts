@@ -1,9 +1,22 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, DefaultValuePipe, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { PreferenciaService } from './preferencia.service';
 import { CreatePreferenciaDto } from './dto/create-preferencia.dto';
 import { UpdatePreferenciaDto } from './dto/update-preferencia.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('preferencia')
 @Controller('preferencia')
 export class PreferenciaController {
   constructor(private readonly preferenciaService: PreferenciaService) {}
@@ -28,7 +41,10 @@ export class PreferenciaController {
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) idPref: number, @Body() updatePreferenciaDto: UpdatePreferenciaDto) {
+  update(
+    @Param('id', ParseIntPipe) idPref: number,
+    @Body() updatePreferenciaDto: UpdatePreferenciaDto,
+  ) {
     return this.preferenciaService.update(idPref, updatePreferenciaDto);
   }
 

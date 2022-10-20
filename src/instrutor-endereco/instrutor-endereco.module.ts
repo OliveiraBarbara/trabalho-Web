@@ -5,11 +5,7 @@ import { InstrutorEnderecoService } from './instrutor-endereco.service';
 import { InstrutorEnderecoController } from './instrutor-endereco.controller';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([InstrutorEndereco]),
-    InstrutorEndereco,
-    InstrutorEnderecoModule,
-  ],
+  imports: [TypeOrmModule.forFeature([InstrutorEndereco]), InstrutorEndereco],
   controllers: [InstrutorEnderecoController],
   providers: [InstrutorEnderecoService],
   exports: [TypeOrmModule],

@@ -5,11 +5,7 @@ import { LocalTreinamentoController } from './local-treinamento.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([LocalTreinamento]),
-    LocalTreinamentoModule,
-    LocalTreinamento,
-  ],
+  imports: [TypeOrmModule.forFeature([LocalTreinamento]), LocalTreinamento],
   controllers: [LocalTreinamentoController],
   providers: [LocalTreinamentoService],
   exports: [TypeOrmModule],

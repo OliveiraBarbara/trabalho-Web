@@ -11,7 +11,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [
     TypeOrmModule.forFeature([UsuarioPreferencia]),
     Usuario,
-    UsuarioPreferenciaModule,
     Preferencia,
     PreferenciaModule,
   ],

@@ -16,7 +16,9 @@ import {
 import { InstrutorEnderecoService } from './instrutor-endereco.service';
 import { CreateInstrutorEnderecoDto } from './dto/create-instrutor-endereco.dto';
 import { UpdateInstrutorEnderecoDto } from './dto/update-instrutor-endereco.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('instrutor-endereco')
 @Controller('instrutor-endereco')
 export class InstrutorEnderecoController {
   constructor(
