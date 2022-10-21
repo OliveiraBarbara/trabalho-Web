@@ -1,25 +1,29 @@
+import { PreferenciaExercicio } from 'src/preferencia-exercicio/entities/preferencia-exercicio.entity';
+import { Preferencia } from 'src/preferencia/entities/preferencia.entity';
 import { PreferenciaExercicioModule } from './preferencia-exercicio/preferencia-exercicio.module';
-import { UsuarioPreferenciaModule } from './usuario-preferencia/usuario-preferencia.module';
-import { UsuarioPreferencia } from './usuario-preferencia/entities/usuario-preferencia.entity';
-import { PreferenciaExercicio } from './preferencia-exercicio/entities/preferencia-exercicio.entity';
-import { LocalTreinamentoModule } from './local-treinamento/local-treinamento.module';
-import { LocalTreinamento } from './local-treinamento/entities/local-treinamento.entity';
-import { Exercicio } from './exercicio/entities/exercicio.entity';
-import { Preferencia } from './preferencia/entities/preferencia.entity';
-import { EnderecosModule } from './core/endereco/endereco.module';
-import { Endereco } from './core/endereco/entities/endereco.entity';
+import { PreferenciaModule } from './preferencia/preferencia.module';
 import { Instrutor } from './instrutor/entities/instrutor.entity';
+import { InstrutorModule } from './instrutor/instrutor.module';
+import { UsuarioModule } from './usuario/usuario.module';
+import { Cidade } from 'src/cidade/entities/cidade.entity';
+import { Estado } from 'src/estado/entities/estado.entity';
+import { Endereco } from 'src/endereco/entities/endereco.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PreferenciaModule } from './preferencia/preferencia.module';
-import { ExercicioModule } from './exercicio/exercicio.module';
-import { InstrutorModule } from './instrutor/instrutor.module';
-import { Usuario } from './usuario/entities/usuario.entity';
-import { UsuarioModule } from './usuario/usuario.module';
-/*import { AuthModule } from './auth/auth.module';
+import { AdminModule } from './admin/admin.module';
+import { ClienteModule } from './cliente/cliente.module';
+import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';*/
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { EstadoModule } from './estado/estado.module';
+import { CidadeModule } from './cidade/cidade.module';
+import { EnderecoModule } from './endereco/endereco.module';
+import { Cliente } from './cliente/entities/cliente.entity';
+import { Admin } from './admin/entities/admin.entity';
+import { Usuario } from './usuario/entities/usuario.entity';
+import { Exercicio } from './exercicio/entities/exercicio.entity';
+import { ExercicioModule } from './exercicio/exercicio.module';
 
 @Module({
   imports: [
@@ -28,24 +32,28 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';*/
       type: 'sqlite',
       database: 'database/site.db',
       entities: [
+        Cliente,
+        Admin,
         Instrutor,
         Endereco,
-        Exercicio,
-        LocalTreinamento,
+        Estado,
+        Cidade,
         Usuario,
+        Exercicio,
         Preferencia,
         PreferenciaExercicio,
-        UsuarioPreferencia,
       ],
       synchronize: true,
     }),
+    EstadoModule,
+    CidadeModule,
+    EnderecoModule,
+    ClienteModule,
+    AdminModule,
     InstrutorModule,
-    EnderecosModule,
-    PreferenciaModule,
-    ExercicioModule,
-    LocalTreinamentoModule,
     UsuarioModule,
-    UsuarioPreferenciaModule,
+    ExercicioModule,
+    PreferenciaModule,
     PreferenciaExercicioModule,
     //AuthModule,
   ],

@@ -1,18 +1,18 @@
-/* eslint-disable @typescript-eslint/no-inferrable-types */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  IPaginationOptions,
-  paginate,
-  Pagination,
-} from 'nestjs-typeorm-paginate';
+import { RecordNotFoundException } from '@exceptions';
 import { Instrutor } from './entities/instrutor.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { CreateInstrutorDto } from './dto/create-instrutor.dto';
 import { UpdateInstrutorDto } from './dto/update-instrutor.dto';
-import { FindOptionsWhere, Repository, ILike } from 'typeorm';
-import { RecordNotFoundException } from '@exceptions';
-import { Endereco } from 'src/core/endereco/entities/endereco.entity';
+import { Endereco } from 'src/endereco/entities/endereco.entity';
+import {
+  IPaginationOptions,
+  Pagination,
+  paginate,
+} from 'nestjs-typeorm-paginate';
+import { Usuario } from 'src/usuario/entities/usuario.entity';
 
 @Injectable()
 export class InstrutorService {
@@ -24,16 +24,13 @@ export class InstrutorService {
 
   async create(createInstrutorDto: CreateInstrutorDto): Promise<Instrutor> {
     const instrutor: Instrutor = this.repository.create(createInstrutorDto);
-    instrutor.nome = createInstrutorDto.nome;
-    instrutor.cref = createInstrutorDto.cref;
-    instrutor.telefone = createInstrutorDto.telefone;
-    instrutor.email = createInstrutorDto.email;
-    const { senha, ...result } = await this.repository.save(instrutor);
     instrutor.enderecos = [];
     createInstrutorDto.enderecos?.forEach((endereco) => {
       instrutor.enderecos.push(this.enderecoRepository.create(endereco));
     });
-    return this.repository.save(instrutor);
+    const { senha, ...result } = await this.repository.save(instrutor);
+
+    return result as Instrutor;
   }
 
   findAll(
@@ -49,7 +46,7 @@ export class InstrutorService {
     return paginate<Instrutor>(this.repository, options, { where });
   }
 
-  async findOne(id: number): Promise<Instrutor> {
+  async findOne(id: number) {
     const instrutor = await this.repository.findOneBy({ id });
 
     if (!instrutor) {
@@ -57,24 +54,6 @@ export class InstrutorService {
     }
 
     return instrutor;
-  }
-
-  async findByEmail(
-    email: string,
-    includePassword: boolean = false,
-  ): Promise<Instrutor> {
-    const instrutor = await this.repository
-      .createQueryBuilder('instrutor')
-      .addSelect('instrutor.senha')
-      .where('usuario.email = :email', { email })
-      .getOne();
-
-    if (includePassword) {
-      return instrutor;
-    } else {
-      const { senha, ...result } = instrutor;
-      return result as Instrutor;
-    }
   }
 
   async update(

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
-import { HttpStatus } from '@nestjs/common';
 import {
   Controller,
   Get,
@@ -8,17 +7,14 @@ import {
   Patch,
   Param,
   Delete,
-  Query,
   DefaultValuePipe,
   ParseIntPipe,
-  HttpCode,
+  Query,
 } from '@nestjs/common';
 import { InstrutorService } from './instrutor.service';
 import { CreateInstrutorDto } from './dto/create-instrutor.dto';
 import { UpdateInstrutorDto } from './dto/update-instrutor.dto';
-import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('instrutor')
 @Controller('instrutor')
 export class InstrutorController {
   constructor(private readonly instrutorService: InstrutorService) {}
@@ -44,15 +40,14 @@ export class InstrutorController {
 
   @Patch(':id')
   update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: number,
     @Body() updateInstrutorDto: UpdateInstrutorDto,
   ) {
     return this.instrutorService.update(id, updateInstrutorDto);
   }
 
   @Delete(':id')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id') id: number) {
     return this.instrutorService.remove(id);
   }
 }

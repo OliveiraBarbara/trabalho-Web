@@ -4,12 +4,19 @@ import { CreateLocalTreinamentoDto } from './dto/create-local-treinamento.dto';
 import { UpdateLocalTreinamentoDto } from './dto/update-local-treinamento.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
-import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
+import {
+  IPaginationOptions,
+  paginate,
+  Pagination,
+} from 'nestjs-typeorm-paginate';
 import { RecordNotFoundException } from '@exceptions';
 
 @Injectable()
 export class LocalTreinamentoService {
-  constructor(@InjectRepository(LocalTreinamento) private repository: Repository<LocalTreinamento>){}
+  constructor(
+    @InjectRepository(LocalTreinamento)
+    private repository: Repository<LocalTreinamento>,
+  ) {}
 
   create(createLocalTreinamentoDto: CreateLocalTreinamentoDto) {
     const local = this.repository.create(createLocalTreinamentoDto);
@@ -20,29 +27,35 @@ export class LocalTreinamentoService {
     return this.repository.save(local);
   }
 
-  findAll(options: IPaginationOptions, search?: string): Promise<Pagination<LocalTreinamento>> {
+  findAll(
+    options: IPaginationOptions,
+    search?: string,
+  ): Promise<Pagination<LocalTreinamento>> {
     const where: FindOptionsWhere<LocalTreinamento> = {};
-    if(search){
+    if (search) {
       where.horaFunc = ILike(`%${search}`);
     }
 
-    return paginate<LocalTreinamento>(this.repository, options, {where});
+    return paginate<LocalTreinamento>(this.repository, options, { where });
   }
 
-  async findOne(idLocal: number): Promise<LocalTreinamento>{
-    const local = await this.repository.findOneBy({idLocal});
+  async findOne(idLocal: number): Promise<LocalTreinamento> {
+    const local = await this.repository.findOneBy({ idLocal });
 
-    if(!local){
+    if (!local) {
       throw new RecordNotFoundException();
     }
 
     return local;
   }
 
-  async update(idLocal: number, updateLocalTreinamentoDto: UpdateLocalTreinamentoDto): Promise<LocalTreinamento> {
+  async update(
+    idLocal: number,
+    updateLocalTreinamentoDto: UpdateLocalTreinamentoDto,
+  ): Promise<LocalTreinamento> {
     await this.repository.update(idLocal, updateLocalTreinamentoDto);
-    const local = await this.repository.findOneBy({idLocal});
-    if(!local){
+    const local = await this.repository.findOneBy({ idLocal });
+    if (!local) {
       throw new RecordNotFoundException();
     }
 
@@ -50,9 +63,9 @@ export class LocalTreinamentoService {
   }
 
   async remove(idLocal: number) {
-    const local = await this.repository.delete({idLocal});
+    const local = await this.repository.delete({ idLocal });
 
-    if(!local?.affected){
+    if (!local?.affected) {
       throw new RecordNotFoundException();
     }
 

@@ -1,7 +1,7 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class LocalTreinamento extends BaseEntity {
+export class LocalTreinamento {
   @PrimaryGeneratedColumn()
   idLocal: number;
 
@@ -14,3 +14,5 @@ export class LocalTreinamento extends BaseEntity {
   @Column()
   horaFunc: string;
 }
+
+//verificação de permissão

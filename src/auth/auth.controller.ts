@@ -1,14 +1,19 @@
-/*import {
+import { Cliente } from './../cliente/entities/cliente.entity';
+import { Instrutor } from './../instrutor/entities/instrutor.entity';
+import {
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
+  Request,
   UseGuards,
 } from '@nestjs/common';
+import { IsPublic, CurrentUser } from 'src/shared/decorators';
+import { Usuario } from 'src/usuario/entities/usuario.entity';
 import { AuthService } from './auth.service';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { Usuario } from './usuario/entities/usuario.entity';
-import { CurrentUser, IsPublic } from 'src/shared/decorators';
 
 @Controller('auth')
 export class AuthController {
@@ -21,8 +26,15 @@ export class AuthController {
   login(@CurrentUser() usuario: Usuario) {
     return this.authService.login(usuario);
   }
-}*/
-import { Controller, Post, UseGuards, Request, Get } from '@nestjs/common';
+
+  @UseGuards(JwtAuthGuard)
+  @Get('usuario')
+  getProfile(@CurrentUser() user) {
+    return user;
+  }
+}
+
+/*import { Controller, Post, UseGuards, Request, Get } from '@nestjs/common';
 import { IsPublic } from 'src/shared/decorators';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
@@ -44,4 +56,4 @@ export class AuthController {
   getProfile(@Request() req) {
     return req.usuario;
   }
-}
+}*/

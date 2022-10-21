@@ -1,12 +1,12 @@
+import { EnderecoModule } from 'src/endereco/endereco.module';
+import { Instrutor } from './entities/instrutor.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 import { InstrutorService } from './instrutor.service';
 import { InstrutorController } from './instrutor.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Instrutor } from './entities/instrutor.entity';
-import { EnderecosModule } from 'src/core/endereco/endereco.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Instrutor]), EnderecosModule],
+  imports: [TypeOrmModule.forFeature([Instrutor]), EnderecoModule],
   controllers: [InstrutorController],
   providers: [InstrutorService],
   exports: [TypeOrmModule],

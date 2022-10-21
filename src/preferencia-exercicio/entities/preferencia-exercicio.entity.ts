@@ -1,11 +1,10 @@
 import { Exercicio } from './../../exercicio/entities/exercicio.entity';
-import { Preferencia } from './../../preferencia/entities/preferencia.entity';
+import { Preferencia } from 'src/preferencia/entities/preferencia.entity';
 import {
   BaseEntity,
   Column,
   Entity,
-  ManyToMany,
-  JoinTable,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -14,22 +13,19 @@ export class PreferenciaExercicio extends BaseEntity {
   @PrimaryGeneratedColumn()
   idPE: number;
 
-  @ManyToMany(() => Preferencia, {
-    cascade: true,
+  @ManyToOne(() => Preferencia, (preferencia) => preferencia.prefExercicio, {
     eager: true,
-    onDelete: 'CASCADE',
   })
-  @JoinTable({ name: 'preferencia_tem_exercicio' })
-  idPref: Preferencia;
+  preferencia: Preferencia;
 
-  @ManyToMany(() => Exercicio, {
-    cascade: true,
+  @ManyToOne(() => Exercicio, (exercicio) => exercicio.exercPref, {
     eager: true,
-    onDelete: 'CASCADE',
   })
-  @JoinTable({ name: 'preferencia_tem_exercicio' })
-  idExec: Exercicio;
+  exercicio: Exercicio;
 
   @Column()
   intensidade: string;
+
+  @Column()
+  qtdnaSemana: string;
 }

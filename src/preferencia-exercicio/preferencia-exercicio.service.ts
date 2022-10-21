@@ -24,7 +24,6 @@ export class PreferenciaExercicioService {
     const prefexec: PreferenciaExercicio = this.repository.create(
       createPreferenciaExercicioDto,
     );
-    prefexec.intensidade = createPreferenciaExercicioDto.intensidade;
 
     return this.repository.save(prefexec);
   }

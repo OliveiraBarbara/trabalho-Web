@@ -1,5 +1,9 @@
 import { RecordNotFoundException } from '@exceptions';
-import { Pagination, IPaginationOptions, paginate } from 'nestjs-typeorm-paginate';
+import {
+  Pagination,
+  IPaginationOptions,
+  paginate,
+} from 'nestjs-typeorm-paginate';
 import { Exercicio } from './entities/exercicio.entity';
 import { Injectable } from '@nestjs/common';
 import { CreateExercicioDto } from './dto/create-exercicio.dto';
@@ -9,43 +13,48 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class ExercicioService {
-  constructor(@InjectRepository(Exercicio) private repository: Repository<Exercicio>) {}
+  constructor(
+    @InjectRepository(Exercicio) private repository: Repository<Exercicio>,
+  ) {}
 
-  create(createExercicioDto: CreateExercicioDto): Promise<Exercicio>{
+  create(createExercicioDto: CreateExercicioDto): Promise<Exercicio> {
     const exercicio = this.repository.create(createExercicioDto);
-    exercicio.tempoExec = createExercicioDto.tempoExec;
-    exercicio.tipo = createExercicioDto.tipo;
-
     return this.repository.save(exercicio);
   }
 
-  findAll(options: IPaginationOptions, search?: string) : Promise<Pagination<Exercicio>>{
+  findAll(
+    options: IPaginationOptions,
+    search?: string,
+  ): Promise<Pagination<Exercicio>> {
     const where: FindOptionsWhere<Exercicio> = {};
-    if (search){
+    if (search) {
       where.tipo = ILike(`%${search}`);
     }
-    return paginate<Exercicio>(this.repository, options, {where});
+    return paginate<Exercicio>(this.repository, options, { where });
   }
 
-  async findOne(idExec: number) : Promise<Exercicio>{
-    const exercicio = await this.repository.findOneBy({idExec});
-    if(!exercicio){
+  async findOne(idExec: number): Promise<Exercicio> {
+    const exercicio = await this.repository.findOneBy({ idExec });
+    if (!exercicio) {
       throw new RecordNotFoundException();
     }
-    return exercicio
-  }
-
-  async update(idExec: number, updateExercicioDto: UpdateExercicioDto) : Promise<Exercicio>{
-    await this.repository.update(idExec, updateExercicioDto);
-    const exercicio = await this.repository.findOneBy({idExec});
-    if(!exercicio){
-      throw new RecordNotFoundException();
-    }
-    
     return exercicio;
   }
 
-  async remove(idExec: number) : Promise<boolean> {
+  async update(
+    idExec: number,
+    updateExercicioDto: UpdateExercicioDto,
+  ): Promise<Exercicio> {
+    await this.repository.update(idExec, updateExercicioDto);
+    const exercicio = await this.repository.findOneBy({ idExec });
+    if (!exercicio) {
+      throw new RecordNotFoundException();
+    }
+
+    return exercicio;
+  }
+
+  async remove(idExec: number): Promise<boolean> {
     const exercicio = await this.repository.delete(idExec);
 
     if (!exercicio?.affected) {

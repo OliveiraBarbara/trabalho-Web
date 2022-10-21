@@ -1,5 +1,5 @@
-import { CreateEnderecoDto } from '../../core/endereco/dto/create-endereco.dto';
-import { Endereco } from '../../core/endereco/entities/endereco.entity';
+import { CreateEnderecoDto } from '../../endereco/dto/create-endereco.dto';
+import { Endereco } from '../../endereco/entities/endereco.entity';
 import {
   IsArray,
   IsEmail,
@@ -14,17 +14,13 @@ import { Type } from 'class-transformer';
 
 export class CreateUsuarioDto {
   /**
-   * O nome será utilizado para qualquer coisa (Perfil, Home Page, etc) que precise exibir
-   * informações da pessoa conectada.
+   * O nome serÃ¡ utilizado para qualquer coisa (Perfil, Home Page, etc) que precise exibir
+   * informaÃ§Ãµes da pessoa conectada.
    * @example Barbara Oliveira
    */
   @IsString()
   @MinLength(3)
   nome: string;
-
-  @IsString()
-  @MinLength(3)
-  cpf: string;
 
   @IsString()
   @MaxLength(11)

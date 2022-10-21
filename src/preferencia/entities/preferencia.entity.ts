@@ -1,7 +1,8 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { PreferenciaExercicio } from './../../preferencia-exercicio/entities/preferencia-exercicio.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity()
-export class Preferencia extends BaseEntity {
+export class Preferencia {
   @PrimaryGeneratedColumn()
   idPref: number;
 
@@ -10,4 +11,10 @@ export class Preferencia extends BaseEntity {
 
   @Column()
   periodo: string;
+
+  @OneToMany(
+    () => PreferenciaExercicio,
+    (prefExercicio) => prefExercicio.preferencia,
+  )
+  prefExercicio: PreferenciaExercicio[];
 }

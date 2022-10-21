@@ -1,13 +1,17 @@
+import { Exercicio } from './../exercicio/entities/exercicio.entity';
+import { Preferencia } from 'src/preferencia/entities/preferencia.entity';
+import { PreferenciaExercicio } from 'src/preferencia-exercicio/entities/preferencia-exercicio.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 import { PreferenciaExercicioService } from './preferencia-exercicio.service';
 import { PreferenciaExercicioController } from './preferencia-exercicio.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ExercicioModule } from 'src/exercicio/exercicio.module';
-
-import { PreferenciaExercicio } from './entities/preferencia-exercicio.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PreferenciaExercicio]), ExercicioModule],
+  imports: [
+    TypeOrmModule.forFeature([PreferenciaExercicio]),
+    Preferencia,
+    Exercicio,
+  ],
   controllers: [PreferenciaExercicioController],
   providers: [PreferenciaExercicioService],
   exports: [TypeOrmModule],

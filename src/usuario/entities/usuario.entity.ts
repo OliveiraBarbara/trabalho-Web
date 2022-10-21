@@ -1,12 +1,20 @@
 import { hashSync } from 'bcrypt';
-import { Endereco } from 'src/core/endereco/entities/endereco.entity';
-import { BaseEntity } from 'src/shared/entities';
-import { BeforeInsert, Column, Entity, JoinTable, ManyToMany } from 'typeorm';
+import { Endereco } from 'src/endereco/entities/endereco.entity';
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+  TableInheritance,
+} from 'typeorm';
 
 @Entity()
-export class Usuario extends BaseEntity {
-  @Column()
-  cpf: string;
+@TableInheritance({ column: { type: 'varchar', name: 'type' } })
+export class Usuario {
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column({ length: 255 })
   nome: string;
