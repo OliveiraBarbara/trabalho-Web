@@ -1,6 +1,4 @@
 import { LocalTreinamentoService } from './../local-treinamento/local-treinamento.service';
-import { LocalTreinamento } from './../local-treinamento/entities/local-treinamento.entity';
-import { Exercicio } from './../exercicio/entities/exercicio.entity';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { RecordNotFoundException } from '@exceptions';
 import { Instrutor } from './entities/instrutor.entity';

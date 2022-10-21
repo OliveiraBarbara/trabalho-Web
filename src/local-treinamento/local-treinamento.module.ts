@@ -1,4 +1,3 @@
-import { InstrutorModule } from './../instrutor/instrutor.module';
 import { EnderecoModule } from 'src/endereco/endereco.module';
 import { LocalTreinamento } from './entities/local-treinamento.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';

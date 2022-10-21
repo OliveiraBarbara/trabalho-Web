@@ -1,8 +1,6 @@
 import { RelationEntityDto } from 'src/shared/dto/relation-entity.dto';
-import { CreateLocalTreinamentoDto } from './../../local-treinamento/dto/create-local-treinamento.dto';
 import { LocalTreinamento } from './../../local-treinamento/entities/local-treinamento.entity';
 import { Exercicio } from './../../exercicio/entities/exercicio.entity';
-import { CreateExercicioDto } from './../../exercicio/dto/create-exercicio.dto';
 import {
   IsArray,
   IsInt,
