@@ -1,5 +1,6 @@
-import { LocalTreinamento } from './../../local-treinamento/entities/local-treinamento.entity';
+import { RelationEntityDto } from 'src/shared/dto/relation-entity.dto';
 import { CreateLocalTreinamentoDto } from './../../local-treinamento/dto/create-local-treinamento.dto';
+import { LocalTreinamento } from './../../local-treinamento/entities/local-treinamento.entity';
 import { Exercicio } from './../../exercicio/entities/exercicio.entity';
 import { CreateExercicioDto } from './../../exercicio/dto/create-exercicio.dto';
 import {
@@ -22,13 +23,13 @@ export class CreateInstrutorDto extends CreateUsuarioDto {
   modalidade: string;
 
   @ValidateNested({ each: true })
-  @Type(() => CreateExercicioDto)
+  @Type(() => RelationEntityDto)
   @IsArray()
   @IsOptional()
   exercicios?: Exercicio[];
 
-  @ValidateNested({ each: true })
-  @Type(() => CreateLocalTreinamentoDto)
+  @ValidateNested()
+  @Type(() => RelationEntityDto)
   @IsArray()
   @IsOptional()
   academias?: LocalTreinamento[];

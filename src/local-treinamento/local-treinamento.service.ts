@@ -20,9 +20,6 @@ export class LocalTreinamentoService {
 
   create(createLocalTreinamentoDto: CreateLocalTreinamentoDto) {
     const local = this.repository.create(createLocalTreinamentoDto);
-    local.nome = createLocalTreinamentoDto.nome;
-    local.horaFunc = createLocalTreinamentoDto.horaFunc;
-    local.valor = createLocalTreinamentoDto.valor;
 
     return this.repository.save(local);
   }

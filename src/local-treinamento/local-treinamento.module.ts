@@ -1,3 +1,4 @@
+import { InstrutorModule } from './../instrutor/instrutor.module';
 import { EnderecoModule } from 'src/endereco/endereco.module';
 import { LocalTreinamento } from './entities/local-treinamento.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -9,6 +10,6 @@ import { LocalTreinamentoController } from './local-treinamento.controller';
   imports: [TypeOrmModule.forFeature([LocalTreinamento]), EnderecoModule],
   controllers: [LocalTreinamentoController],
   providers: [LocalTreinamentoService],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, LocalTreinamentoService],
 })
 export class LocalTreinamentoModule {}

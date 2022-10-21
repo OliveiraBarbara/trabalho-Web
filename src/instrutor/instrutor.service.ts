@@ -1,3 +1,4 @@
+import { LocalTreinamentoService } from './../local-treinamento/local-treinamento.service';
 import { LocalTreinamento } from './../local-treinamento/entities/local-treinamento.entity';
 import { Exercicio } from './../exercicio/entities/exercicio.entity';
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -14,6 +15,7 @@ import {
   Pagination,
   paginate,
 } from 'nestjs-typeorm-paginate';
+import { ExercicioService } from 'src/exercicio/exercicio.service';
 
 @Injectable()
 export class InstrutorService {
@@ -21,10 +23,8 @@ export class InstrutorService {
     @InjectRepository(Instrutor) private repository: Repository<Instrutor>,
     @InjectRepository(Endereco)
     private enderecoRepository: Repository<Endereco>,
-    @InjectRepository(Exercicio)
-    private exercicioRepository: Repository<Exercicio>,
-    @InjectRepository(LocalTreinamento)
-    private academiaRepository: Repository<LocalTreinamento>,
+    private readonly localtreinamentoService: LocalTreinamentoService,
+    private readonly exercicioService: ExercicioService,
   ) {}
 
   async create(createInstrutorDto: CreateInstrutorDto): Promise<Instrutor> {
@@ -34,12 +34,16 @@ export class InstrutorService {
       instrutor.enderecos.push(this.enderecoRepository.create(endereco));
     });
     instrutor.exercicios = [];
-    createInstrutorDto.exercicios?.forEach((exercicio) => {
-      instrutor.exercicios.push(this.exercicioRepository.create(exercicio));
+    createInstrutorDto.exercicios?.forEach(async (exercicio) => {
+      instrutor.exercicios.push(
+        await this.exercicioService.findOne(exercicio.idExec),
+      );
     });
     instrutor.academias = [];
-    createInstrutorDto.academias?.forEach((academia) => {
-      instrutor.academias.push(this.academiaRepository.create(academia));
+    createInstrutorDto.academias?.forEach(async (academia) => {
+      instrutor.academias.push(
+        await this.localtreinamentoService.findOne(academia.idLocal),
+      );
     });
 
     const { senha, ...result } = await this.repository.save(instrutor);

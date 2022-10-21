@@ -1,19 +1,46 @@
+import { Endereco } from 'src/endereco/entities/endereco.entity';
 import { Injectable } from '@nestjs/common';
 import { CreateEnderecoDto } from './dto/create-endereco.dto';
 import { UpdateEnderecoDto } from './dto/update-endereco.dto';
+import { RecordNotFoundException } from '@exceptions';
+import { InjectRepository } from '@nestjs/typeorm';
+import {
+  IPaginationOptions,
+  Pagination,
+  paginate,
+} from 'nestjs-typeorm-paginate';
+import { Repository, FindManyOptions, ILike } from 'typeorm';
 
 @Injectable()
 export class EnderecoService {
+  constructor(
+    @InjectRepository(Endereco) private repository: Repository<Endereco>,
+  ) {}
+
   create(createEnderecoDto: CreateEnderecoDto) {
     return 'This action adds a new endereco';
   }
 
-  findAll() {
-    return `This action returns all endereco`;
+  findAll(
+    options: IPaginationOptions,
+    search?: string,
+  ): Promise<Pagination<Endereco>> {
+    const where: FindManyOptions<Endereco> = {};
+    if (search) {
+      where.where = [{ rua: ILike(`%${search}%`) }];
+    }
+
+    return paginate<Endereco>(this.repository, options, where);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} endereco`;
+  async findOne(id: number): Promise<Endereco> {
+    const endereco = await this.repository.findOneBy({ id });
+
+    if (!endereco) {
+      throw new RecordNotFoundException();
+    }
+
+    return endereco;
   }
 
   update(id: number, updateEnderecoDto: UpdateEnderecoDto) {
