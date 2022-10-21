@@ -1,3 +1,4 @@
+import { Preferencia } from 'src/preferencia/entities/preferencia.entity';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { RecordNotFoundException } from '@exceptions';
 import {
@@ -19,6 +20,8 @@ export class ClienteService {
     @InjectRepository(Cliente) private repository: Repository<Cliente>,
     @InjectRepository(Endereco)
     private enderecoRepository: Repository<Endereco>,
+    @InjectRepository(Preferencia)
+    private preferenciaRepository: Repository<Preferencia>,
   ) {}
 
   async create(createClienteDto: CreateClienteDto): Promise<Cliente> {
@@ -26,6 +29,10 @@ export class ClienteService {
     cliente.enderecos = [];
     createClienteDto.enderecos?.forEach((endereco) => {
       cliente.enderecos.push(this.enderecoRepository.create(endereco));
+    });
+    cliente.preferencias = [];
+    createClienteDto.preferencias?.forEach((preferencia) => {
+      cliente.preferencias.push(this.preferenciaRepository.create(preferencia));
     });
     const { senha, ...result } = await this.repository.save(cliente);
 

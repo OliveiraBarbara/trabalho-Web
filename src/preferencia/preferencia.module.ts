@@ -8,5 +8,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [TypeOrmModule.forFeature([Preferencia])],
   controllers: [PreferenciaController],
   providers: [PreferenciaService],
+  exports: [TypeOrmModule],
 })
 export class PreferenciaModule {}

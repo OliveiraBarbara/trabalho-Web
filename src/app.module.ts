@@ -1,3 +1,5 @@
+import { LocalTreinamentoModule } from './local-treinamento/local-treinamento.module';
+import { LocalTreinamento } from './local-treinamento/entities/local-treinamento.entity';
 import { PreferenciaExercicio } from 'src/preferencia-exercicio/entities/preferencia-exercicio.entity';
 import { Preferencia } from 'src/preferencia/entities/preferencia.entity';
 import { PreferenciaExercicioModule } from './preferencia-exercicio/preferencia-exercicio.module';
@@ -42,6 +44,7 @@ import { ExercicioModule } from './exercicio/exercicio.module';
         Exercicio,
         Preferencia,
         PreferenciaExercicio,
+        LocalTreinamento,
       ],
       synchronize: true,
     }),
@@ -55,6 +58,7 @@ import { ExercicioModule } from './exercicio/exercicio.module';
     ExercicioModule,
     PreferenciaModule,
     PreferenciaExercicioModule,
+    LocalTreinamentoModule,
     //AuthModule,
   ],
   controllers: [],

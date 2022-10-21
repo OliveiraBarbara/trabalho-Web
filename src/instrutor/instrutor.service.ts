@@ -1,3 +1,5 @@
+import { LocalTreinamento } from './../local-treinamento/entities/local-treinamento.entity';
+import { Exercicio } from './../exercicio/entities/exercicio.entity';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { RecordNotFoundException } from '@exceptions';
 import { Instrutor } from './entities/instrutor.entity';
@@ -12,7 +14,6 @@ import {
   Pagination,
   paginate,
 } from 'nestjs-typeorm-paginate';
-import { Usuario } from 'src/usuario/entities/usuario.entity';
 
 @Injectable()
 export class InstrutorService {
@@ -20,6 +21,10 @@ export class InstrutorService {
     @InjectRepository(Instrutor) private repository: Repository<Instrutor>,
     @InjectRepository(Endereco)
     private enderecoRepository: Repository<Endereco>,
+    @InjectRepository(Exercicio)
+    private exercicioRepository: Repository<Exercicio>,
+    @InjectRepository(LocalTreinamento)
+    private academiaRepository: Repository<LocalTreinamento>,
   ) {}
 
   async create(createInstrutorDto: CreateInstrutorDto): Promise<Instrutor> {
@@ -28,6 +33,15 @@ export class InstrutorService {
     createInstrutorDto.enderecos?.forEach((endereco) => {
       instrutor.enderecos.push(this.enderecoRepository.create(endereco));
     });
+    instrutor.exercicios = [];
+    createInstrutorDto.exercicios?.forEach((exercicio) => {
+      instrutor.exercicios.push(this.exercicioRepository.create(exercicio));
+    });
+    instrutor.academias = [];
+    createInstrutorDto.academias?.forEach((academia) => {
+      instrutor.academias.push(this.academiaRepository.create(academia));
+    });
+
     const { senha, ...result } = await this.repository.save(instrutor);
 
     return result as Instrutor;

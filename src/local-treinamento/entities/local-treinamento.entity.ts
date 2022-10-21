@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Endereco } from 'src/endereco/entities/endereco.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class LocalTreinamento {
@@ -13,6 +20,10 @@ export class LocalTreinamento {
 
   @Column()
   horaFunc: string;
+
+  @OneToOne(() => Endereco)
+  @JoinColumn()
+  endereco: Endereco;
 }
 
 //verificação de permissão
