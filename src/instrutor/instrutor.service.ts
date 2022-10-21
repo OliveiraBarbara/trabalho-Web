@@ -4,7 +4,7 @@ import { RecordNotFoundException } from '@exceptions';
 import { Instrutor } from './entities/instrutor.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsWhere, ILike, Repository } from 'typeorm';
+import { FindManyOptions, FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { CreateInstrutorDto } from './dto/create-instrutor.dto';
 import { UpdateInstrutorDto } from './dto/update-instrutor.dto';
 import { Endereco } from 'src/endereco/entities/endereco.entity';
@@ -53,13 +53,16 @@ export class InstrutorService {
     options: IPaginationOptions,
     search: string,
   ): Promise<Pagination<Instrutor>> {
-    const where: FindOptionsWhere<Instrutor> = {};
+    const where: FindManyOptions<Instrutor> = {};
 
     if (search) {
-      where.nome = ILike(`%${search}`);
+      where.where = [
+        { nome: ILike(`%${search}%`) },
+        { modalidade: ILike(`%${search}%`) },
+      ];
     }
 
-    return paginate<Instrutor>(this.repository, options, { where });
+    return paginate<Instrutor>(this.repository, options, where);
   }
 
   async findOne(id: number) {

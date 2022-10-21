@@ -27,7 +27,11 @@ export class EnderecoService {
   ): Promise<Pagination<Endereco>> {
     const where: FindManyOptions<Endereco> = {};
     if (search) {
-      where.where = [{ rua: ILike(`%${search}%`) }];
+      where.where = [
+        { rua: ILike(`%${search}%`) },
+        { bairro: ILike(`%${search}`) },
+        { cep: ILike(`%${search}`) },
+      ];
     }
 
     return paginate<Endereco>(this.repository, options, where);

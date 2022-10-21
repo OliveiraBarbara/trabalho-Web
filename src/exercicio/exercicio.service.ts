@@ -8,7 +8,7 @@ import { Exercicio } from './entities/exercicio.entity';
 import { Injectable } from '@nestjs/common';
 import { CreateExercicioDto } from './dto/create-exercicio.dto';
 import { UpdateExercicioDto } from './dto/update-exercicio.dto';
-import { Repository, FindOptionsWhere, ILike } from 'typeorm';
+import { Repository, FindOptionsWhere, ILike, FindManyOptions } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
@@ -26,11 +26,14 @@ export class ExercicioService {
     options: IPaginationOptions,
     search?: string,
   ): Promise<Pagination<Exercicio>> {
-    const where: FindOptionsWhere<Exercicio> = {};
+    const where: FindManyOptions<Exercicio> = {};
     if (search) {
-      where.tipo = ILike(`%${search}`);
+      where.where = [
+        { tipo: ILike(`%${search}%`) },
+        { tempoExec: ILike(`%${search}%`) },
+      ];
     }
-    return paginate<Exercicio>(this.repository, options, { where });
+    return paginate<Exercicio>(this.repository, options, where);
   }
 
   async findOne(idExec: number): Promise<Exercicio> {

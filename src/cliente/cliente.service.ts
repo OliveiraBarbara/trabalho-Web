@@ -11,7 +11,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
 import { Endereco } from 'src/endereco/entities/endereco.entity';
-import { Repository, FindOptionsWhere, ILike } from 'typeorm';
+import { Repository, FindOptionsWhere, ILike, FindManyOptions } from 'typeorm';
 import { Cliente } from './entities/cliente.entity';
 
 @Injectable()
@@ -43,13 +43,16 @@ export class ClienteService {
     options: IPaginationOptions,
     search: string,
   ): Promise<Pagination<Cliente>> {
-    const where: FindOptionsWhere<Cliente> = {};
+    const where: FindManyOptions<Cliente> = {};
 
     if (search) {
-      where.nome = ILike(`%${search}`);
+      where.where = [
+        { nome: ILike(`%${search}`) },
+        { cpf: ILike(`%${search}`) },
+      ];
     }
 
-    return paginate<Cliente>(this.repository, options, { where });
+    return paginate<Cliente>(this.repository, options, where);
   }
 
   async findOne(id: number) {

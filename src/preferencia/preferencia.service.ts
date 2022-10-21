@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreatePreferenciaDto } from './dto/create-preferencia.dto';
 import { UpdatePreferenciaDto } from './dto/update-preferencia.dto';
-import { Repository, FindOptionsWhere, ILike } from 'typeorm';
+import { Repository, FindOptionsWhere, ILike, FindManyOptions } from 'typeorm';
 import {
   IPaginationOptions,
   paginate,
@@ -27,12 +27,15 @@ export class PreferenciaService {
     options: IPaginationOptions,
     search?: string,
   ): Promise<Pagination<Preferencia>> {
-    const where: FindOptionsWhere<Preferencia> = {};
+    const where: FindManyOptions<Preferencia> = {};
     if (search) {
-      where.material = ILike(`%${search}`);
+      where.where = [
+        { material: ILike(`%${search}%`) },
+        { periodo: ILike(`%${search}%`) },
+      ];
     }
 
-    return paginate<Preferencia>(this.repository, options, { where });
+    return paginate<Preferencia>(this.repository, options, where);
   }
 
   async findOne(idPref: number): Promise<Preferencia> {
