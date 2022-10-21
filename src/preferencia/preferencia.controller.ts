@@ -17,16 +17,16 @@ import { UpdatePreferenciaDto } from './dto/update-preferencia.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('preferencia')
-@Controller('preferencia')
+@Controller('preferencia/')
 export class PreferenciaController {
   constructor(private readonly preferenciaService: PreferenciaService) {}
 
-  @Post()
+  @Post('add-preferencia')
   create(@Body() createPreferenciaDto: CreatePreferenciaDto) {
     return this.preferenciaService.create(createPreferenciaDto);
   }
 
-  @Get()
+  @Get('ver-preferencia')
   findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,

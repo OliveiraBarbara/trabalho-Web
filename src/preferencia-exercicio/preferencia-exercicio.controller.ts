@@ -25,14 +25,14 @@ export class PreferenciaExercicioController {
     private readonly preferenciaExercicioService: PreferenciaExercicioService,
   ) {}
 
-  @Post()
+  @Post('add-prefExercicio')
   create(@Body() createPreferenciaExercicioDto: CreatePreferenciaExercicioDto) {
     return this.preferenciaExercicioService.create(
       createPreferenciaExercicioDto,
     );
   }
 
-  @Get()
+  @Get('ver-prefExercicio')
   findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,

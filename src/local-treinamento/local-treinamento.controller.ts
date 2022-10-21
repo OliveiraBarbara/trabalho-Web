@@ -17,18 +17,18 @@ import { UpdateLocalTreinamentoDto } from './dto/update-local-treinamento.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('local-treinamento')
-@Controller('local-treinamento')
+@Controller('local-treinamento/')
 export class LocalTreinamentoController {
   constructor(
     private readonly localTreinamentoService: LocalTreinamentoService,
   ) {}
 
-  @Post()
+  @Post('add-localTreinamento')
   create(@Body() createLocalTreinamentoDto: CreateLocalTreinamentoDto) {
     return this.localTreinamentoService.create(createLocalTreinamentoDto);
   }
 
-  @Get()
+  @Get('ver-localTreinamento')
   findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,

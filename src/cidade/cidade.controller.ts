@@ -11,20 +11,22 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CidadeService } from './cidade.service';
 import { CreateCidadeDto } from './dto/create-cidade.dto';
 import { UpdateCidadeDto } from './dto/update-cidade.dto';
 
-@Controller('cidade')
+@ApiTags('cidade')
+@Controller('cidade/')
 export class CidadeController {
   constructor(private readonly cidadeService: CidadeService) {}
 
-  @Post()
+  @Post('add-cidade')
   create(@Body() createCidadeDto: CreateCidadeDto) {
     return this.cidadeService.create(createCidadeDto);
   }
 
-  @Get()
+  @Get('ver-cidade')
   findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,

@@ -16,17 +16,17 @@ import { CreateExercicioDto } from './dto/create-exercicio.dto';
 import { UpdateExercicioDto } from './dto/update-exercicio.dto';
 import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('exercicio')
+@ApiTags('exercicio/')
 @Controller('exercicio')
 export class ExercicioController {
   constructor(private readonly exercicioService: ExercicioService) {}
 
-  @Post()
+  @Post('add-exercicio')
   create(@Body() createExercicioDto: CreateExercicioDto) {
     return this.exercicioService.create(createExercicioDto);
   }
 
-  @Get()
+  @Get('ver-exercicio')
   findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,

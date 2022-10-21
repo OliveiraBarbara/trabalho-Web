@@ -14,17 +14,19 @@ import {
 import { EstadoService } from './estado.service';
 import { CreateEstadoDto } from './dto/create-estado.dto';
 import { UpdateEstadoDto } from './dto/update-estado.dto';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('estado')
+@ApiTags('estado')
+@Controller('estado/')
 export class EstadoController {
   constructor(private readonly estadoService: EstadoService) {}
 
-  @Post()
+  @Post('add-estado')
   create(@Body() createEstadoDto: CreateEstadoDto) {
     return this.estadoService.create(createEstadoDto);
   }
 
-  @Get()
+  @Get('ver-estado')
   findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,

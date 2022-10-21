@@ -14,17 +14,19 @@ import {
 import { InstrutorService } from './instrutor.service';
 import { CreateInstrutorDto } from './dto/create-instrutor.dto';
 import { UpdateInstrutorDto } from './dto/update-instrutor.dto';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('instrutor')
+@ApiTags('instrutor')
+@Controller('instrutor/')
 export class InstrutorController {
   constructor(private readonly instrutorService: InstrutorService) {}
 
-  @Post()
+  @Post('add-instrutor')
   create(@Body() createInstrutorDto: CreateInstrutorDto) {
     return this.instrutorService.create(createInstrutorDto);
   }
 
-  @Get()
+  @Get('ver-instrutor')
   findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,

@@ -47,7 +47,13 @@ export class EnderecoService {
     return `This action updates a #${id} endereco`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} endereco`;
+  async remove(id: number): Promise<boolean> {
+    const end = await this.repository.delete(id);
+
+    if (!end?.affected) {
+      throw new RecordNotFoundException();
+    }
+
+    return true;
   }
 }

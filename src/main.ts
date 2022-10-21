@@ -21,16 +21,16 @@ async function bootstrap() {
       'RUNMAZING - SITE PARA PARCERIA DE ATIVIDADE FÍSICA. O Swagger (aka OpenApi) é uma biblioteca muito conhecida no universo backend, estando disponível para diversas linguagens e frameworks. Ela gera um site interno no seu backend que descreve, com muitos detalhes, cada endpoint e estrutura de entidades presentes na sua aplicação.',
     )
     .setVersion('1.0')
-    .addTag('usuario')
+    .addTag('cliente')
     .addTag('instrutor')
+    .addTag('admin')
     .addTag('endereco')
+    .addTag('cidade')
+    .addTag('estado')
     .addTag('local-treinamento')
     .addTag('exercicio')
     .addTag('preferencia')
     .addTag('preferencia-exercicio')
-    .addTag('instrutor-endereco')
-    .addTag('usuario-endereco')
-    .addTag('usuario-preferencia')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
