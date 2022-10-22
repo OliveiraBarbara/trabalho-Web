@@ -1,12 +1,9 @@
-import { Cliente } from './../cliente/entities/cliente.entity';
-import { Instrutor } from './../instrutor/entities/instrutor.entity';
 import {
   Controller,
   Get,
   HttpCode,
   HttpStatus,
   Post,
-  Request,
   UseGuards,
 } from '@nestjs/common';
 import { IsPublic, CurrentUser } from 'src/shared/decorators';
@@ -29,6 +26,7 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('usuario')
+  @UseGuards()
   getProfile(@CurrentUser() user) {
     return user;
   }
