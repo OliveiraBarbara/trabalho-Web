@@ -14,9 +14,7 @@ import {
 import { EnderecoService } from './endereco.service';
 import { CreateEnderecoDto } from './dto/create-endereco.dto';
 import { UpdateEnderecoDto } from './dto/update-endereco.dto';
-import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('endereco')
 @Controller('endereco')
 export class EnderecoController {
   constructor(private readonly enderecoService: EnderecoService) {}

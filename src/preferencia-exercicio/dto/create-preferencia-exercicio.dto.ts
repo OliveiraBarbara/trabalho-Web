@@ -10,12 +10,18 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { RelationEntityDto } from 'src/shared/dto/relation-entity.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreatePreferenciaExercicioDto {
+  @ApiProperty({
+    example: 'baixo',
+  })
   @IsString()
-  @MaxLength(30)
   intensidade: string;
 
+  @ApiProperty({
+    example: '2 vezes na semana',
+  })
   @IsString()
   @MaxLength(30)
   qtdnaSemana: string;

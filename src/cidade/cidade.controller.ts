@@ -10,8 +10,10 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard_Admin } from 'src/auth/guards/admin-auth.guard';
 import { CidadeService } from './cidade.service';
 import { CreateCidadeDto } from './dto/create-cidade.dto';
 import { UpdateCidadeDto } from './dto/update-cidade.dto';
@@ -21,6 +23,7 @@ import { UpdateCidadeDto } from './dto/update-cidade.dto';
 export class CidadeController {
   constructor(private readonly cidadeService: CidadeService) {}
 
+  @UseGuards(AuthGuard_Admin)
   @Post('add-cidade')
   create(@Body() createCidadeDto: CreateCidadeDto) {
     return this.cidadeService.create(createCidadeDto);
@@ -40,6 +43,7 @@ export class CidadeController {
     return this.cidadeService.findOne(id);
   }
 
+  @UseGuards(AuthGuard_Admin)
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -48,6 +52,7 @@ export class CidadeController {
     return this.cidadeService.update(id, updateCidadeDto);
   }
 
+  @UseGuards(AuthGuard_Admin)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.cidadeService.remove(id);

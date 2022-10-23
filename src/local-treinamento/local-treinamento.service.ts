@@ -10,17 +10,23 @@ import {
   Pagination,
 } from 'nestjs-typeorm-paginate';
 import { RecordNotFoundException } from '@exceptions';
+import { Endereco } from 'src/endereco/entities/endereco.entity';
 
 @Injectable()
 export class LocalTreinamentoService {
   constructor(
     @InjectRepository(LocalTreinamento)
     private repository: Repository<LocalTreinamento>,
+    @InjectRepository(Endereco)
+    private enderecoRepository: Repository<Endereco>,
   ) {}
 
   create(createLocalTreinamentoDto: CreateLocalTreinamentoDto) {
     const local = this.repository.create(createLocalTreinamentoDto);
-
+    /*local.endereco = [];
+    createLocalTreinamentoDto.endereco?.forEach((enderecos) => {
+      local.endereco.push(this.enderecoRepository.create(enderecos));
+    });*/
     return this.repository.save(local);
   }
 

@@ -10,17 +10,20 @@ import {
   Query,
   DefaultValuePipe,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { ExercicioService } from './exercicio.service';
 import { CreateExercicioDto } from './dto/create-exercicio.dto';
 import { UpdateExercicioDto } from './dto/update-exercicio.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard_Intrutor } from 'src/auth/guards/instrutor-auth.guard';
 
-@ApiTags('exercicio/')
-@Controller('exercicio')
+@ApiTags('exercicio')
+@Controller('exercicio/')
 export class ExercicioController {
   constructor(private readonly exercicioService: ExercicioService) {}
 
+  @UseGuards(AuthGuard_Intrutor)
   @Post('add-exercicio')
   create(@Body() createExercicioDto: CreateExercicioDto) {
     return this.exercicioService.create(createExercicioDto);
@@ -40,6 +43,7 @@ export class ExercicioController {
     return this.exercicioService.findOne(idExec);
   }
 
+  @UseGuards(AuthGuard_Intrutor)
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) idExec: number,
@@ -48,6 +52,7 @@ export class ExercicioController {
     return this.exercicioService.update(idExec, updateExercicioDto);
   }
 
+  @UseGuards(AuthGuard_Intrutor)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) idExec: number) {
     return this.exercicioService.remove(idExec);

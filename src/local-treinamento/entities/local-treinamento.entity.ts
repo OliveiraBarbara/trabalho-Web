@@ -2,8 +2,8 @@ import { Endereco } from 'src/endereco/entities/endereco.entity';
 import {
   Column,
   Entity,
-  JoinColumn,
-  OneToOne,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -21,9 +21,12 @@ export class LocalTreinamento {
   @Column()
   horaFunc: string;
 
-  @OneToOne(() => Endereco)
-  @JoinColumn()
-  endereco: Endereco;
+  @ManyToMany(() => Endereco, {
+    cascade: true,
+    orphanedRowAction: 'delete',
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinTable({ name: 'academia_tem_endereco' })
+  enderecos?: Endereco;
 }
-
-//verificação de permissão

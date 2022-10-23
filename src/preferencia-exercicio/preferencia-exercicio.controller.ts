@@ -12,11 +12,13 @@ import {
   ParseIntPipe,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { PreferenciaExercicioService } from './preferencia-exercicio.service';
 import { CreatePreferenciaExercicioDto } from './dto/create-preferencia-exercicio.dto';
 import { UpdatePreferenciaExercicioDto } from './dto/update-preferencia-exercicio.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard_Cliente } from 'src/auth/guards/cliente-auth.guard';
 
 @ApiTags('preferencia-exercicio')
 @Controller('preferencia-exercicio')
@@ -25,6 +27,7 @@ export class PreferenciaExercicioController {
     private readonly preferenciaExercicioService: PreferenciaExercicioService,
   ) {}
 
+  @UseGuards(AuthGuard_Cliente)
   @Post('add-prefExercicio')
   create(@Body() createPreferenciaExercicioDto: CreatePreferenciaExercicioDto) {
     return this.preferenciaExercicioService.create(
@@ -46,6 +49,7 @@ export class PreferenciaExercicioController {
     return this.preferenciaExercicioService.findOne(id);
   }
 
+  @UseGuards(AuthGuard_Cliente)
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -57,6 +61,7 @@ export class PreferenciaExercicioController {
     );
   }
 
+  @UseGuards(AuthGuard_Cliente)
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id', ParseIntPipe) id: number) {

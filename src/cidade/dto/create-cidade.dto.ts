@@ -10,13 +10,20 @@ import {
   MinLength,
   ValidateNested,
 } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateCidadeDto {
+  @ApiProperty({
+    example: 'Três Lagoas',
+  })
   @IsString()
   @MinLength(3)
   @IsNotEmpty()
   nome: string;
 
+  @ApiProperty({
+    example: '{"id": 1}',
+  })
   @ValidateNested()
   @Type(() => RelationEntityDto)
   @IsObject()

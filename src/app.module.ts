@@ -29,7 +29,7 @@ import { ExercicioModule } from './exercicio/exercicio.module';
 
 @Module({
   imports: [
-    //ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'database/site.db',
@@ -59,9 +59,9 @@ import { ExercicioModule } from './exercicio/exercicio.module';
     PreferenciaModule,
     PreferenciaExercicioModule,
     LocalTreinamentoModule,
-    //AuthModule,
+    AuthModule,
   ],
   controllers: [],
-  //providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }],
+  providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }],
 })
 export class AppModule {}

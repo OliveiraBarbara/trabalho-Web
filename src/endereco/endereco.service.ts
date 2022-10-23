@@ -18,7 +18,8 @@ export class EnderecoService {
   ) {}
 
   create(createEnderecoDto: CreateEnderecoDto) {
-    return 'This action adds a new endereco';
+    const endereco = this.repository.create(createEnderecoDto);
+    return this.repository.save(endereco);
   }
 
   findAll(

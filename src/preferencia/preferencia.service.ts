@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreatePreferenciaDto } from './dto/create-preferencia.dto';
 import { UpdatePreferenciaDto } from './dto/update-preferencia.dto';
-import { Repository, FindOptionsWhere, ILike, FindManyOptions } from 'typeorm';
+import { Repository, ILike, FindManyOptions } from 'typeorm';
 import {
   IPaginationOptions,
   paginate,

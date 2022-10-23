@@ -6,7 +6,7 @@ export class Exercicio {
   @PrimaryGeneratedColumn()
   idExec: number;
 
-  @Column({ length: 255 })
+  @Column()
   tipo: string;
 
   @Column()

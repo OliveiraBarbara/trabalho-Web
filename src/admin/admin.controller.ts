@@ -15,6 +15,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { AdminService } from './admin.service';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard_Admin } from 'src/auth/guards/admin-auth.guard';
 
 @ApiTags('admin')
 @Controller('admin')

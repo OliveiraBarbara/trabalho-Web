@@ -11,5 +11,3 @@ export class AuthGuard_Intrutor implements CanActivate {
     return request.user instanceof Instrutor;
   }
 }
-
-//request.user(instanceOf.type(instrutor, admin, cliente....))

@@ -24,7 +24,6 @@ async function bootstrap() {
     .addTag('cliente')
     .addTag('instrutor')
     .addTag('admin')
-    .addTag('endereco')
     .addTag('cidade')
     .addTag('estado')
     .addTag('local-treinamento')

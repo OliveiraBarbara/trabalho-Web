@@ -24,18 +24,3 @@ import { UsuarioModule } from 'src/usuario/usuario.module';
   providers: [AuthService, LocalStrategy, JwtStrategy],
 })
 export class AuthModule {}
-
-/*@Module({
-  imports: [
-    UsuarioModule,
-    PassportModule,
-    JwtModule.register({
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '1h' },
-    }),
-  ],
-  controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
-  exports: [AuthService],
-})
-export class AuthModule {}*/

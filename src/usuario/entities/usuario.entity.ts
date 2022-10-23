@@ -1,5 +1,4 @@
 import { hashSync } from 'bcrypt';
-import { win32 } from 'node:path/posix';
 import { Endereco } from 'src/endereco/entities/endereco.entity';
 import {
   BeforeInsert,
@@ -43,5 +42,3 @@ export class Usuario {
     this.senha = hashSync(this.senha, 10);
   }
 }
-
-//request.user(instanceOf.type(instrutor, admin, cliente....))

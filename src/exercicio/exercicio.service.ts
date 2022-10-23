@@ -8,7 +8,7 @@ import { Exercicio } from './entities/exercicio.entity';
 import { Injectable } from '@nestjs/common';
 import { CreateExercicioDto } from './dto/create-exercicio.dto';
 import { UpdateExercicioDto } from './dto/update-exercicio.dto';
-import { Repository, FindOptionsWhere, ILike, FindManyOptions } from 'typeorm';
+import { Repository, ILike, FindManyOptions } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
