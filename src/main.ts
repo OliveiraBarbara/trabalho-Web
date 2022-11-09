@@ -14,7 +14,7 @@ async function bootstrap() {
       },
     }),
   );
-
+  app.enableCors();
   const config = new DocumentBuilder()
     .setTitle('Documentação com Swagger - Anelise e Bárbara')
     .setDescription(

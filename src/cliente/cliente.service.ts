@@ -1,3 +1,4 @@
+import { CreatePreferenciaDto } from './../preferencia/dto/create-preferencia.dto';
 import { Preferencia } from 'src/preferencia/entities/preferencia.entity';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { RecordNotFoundException } from '@exceptions';
@@ -39,6 +40,15 @@ export class ClienteService {
     return result as Cliente;
   }
 
+  async createPref(
+    cliente: Cliente,
+    preferencia: CreatePreferenciaDto,
+  ): Promise<Cliente> {
+    cliente.preferencias.push(this.preferenciaRepository.create(preferencia));
+
+    return await this.repository.save(cliente);
+  }
+
   findAll(
     options: IPaginationOptions,
     search: string,
@@ -66,8 +76,17 @@ export class ClienteService {
   }
 
   async update(id: number, updateClienteDto: UpdateClienteDto) {
-    await this.repository.update(id, updateClienteDto);
+    const { enderecos, preferencias, ...dadosUpdate } = updateClienteDto;
+    await this.repository.update(id, dadosUpdate);
+
     const cliente = await this.repository.findOneBy({ id });
+
+    for (let index = 0; index < cliente.enderecos.length; index++) {
+      this.enderecoRepository.update(
+        cliente.enderecos[index].id,
+        enderecos[index],
+      );
+    }
 
     if (!cliente) {
       throw new RecordNotFoundException();

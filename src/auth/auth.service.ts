@@ -19,6 +19,7 @@ export class AuthService {
       sub: usuario.id,
       email: usuario.email,
       name: usuario.nome,
+      //tipo
     };
 
     return {

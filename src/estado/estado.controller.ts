@@ -23,7 +23,7 @@ import { AuthGuard_Admin } from 'src/auth/guards/admin-auth.guard';
 export class EstadoController {
   constructor(private readonly estadoService: EstadoService) {}
 
-  @UseGuards(AuthGuard_Admin)
+  //@UseGuards(AuthGuard_Admin)
   @Post('add-estado')
   create(@Body() createEstadoDto: CreateEstadoDto) {
     return this.estadoService.create(createEstadoDto);
@@ -43,7 +43,7 @@ export class EstadoController {
     return this.estadoService.findOne(id);
   }
 
-  @UseGuards(AuthGuard_Admin)
+  //@UseGuards(AuthGuard_Admin)
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,

@@ -62,6 +62,6 @@ import { ExercicioModule } from './exercicio/exercicio.module';
     AuthModule,
   ],
   controllers: [],
-  providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }],
+  //providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }],
 })
 export class AppModule {}

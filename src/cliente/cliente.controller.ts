@@ -1,3 +1,5 @@
+import { CreatePreferenciaDto } from './../preferencia/dto/create-preferencia.dto';
+import { Cliente } from './entities/cliente.entity';
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 import {
   Controller,
@@ -12,6 +14,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { CurrentUser } from 'src/shared/decorators';
 import { ClienteService } from './cliente.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
@@ -24,6 +27,14 @@ export class ClienteController {
   @Post('add-cliente')
   create(@Body() createClienteDto: CreateClienteDto) {
     return this.clienteService.create(createClienteDto);
+  }
+
+  @Post('add-pref')
+  createPref(
+    @CurrentUser() cliente: Cliente,
+    @Body() preferencia: CreatePreferenciaDto,
+  ) {
+    return this.clienteService.createPref(cliente, preferencia);
   }
 
   @Get('ver-cliente')
