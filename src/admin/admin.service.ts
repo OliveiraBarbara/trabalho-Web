@@ -56,8 +56,18 @@ export class AdminService {
   }
 
   async update(id: number, updateAdminDto: UpdateAdminDto): Promise<Admin> {
-    await this.repository.update(id, updateAdminDto);
+    const { enderecos, ...dadosUpdate } = updateAdminDto;
+    await this.repository.update(id, dadosUpdate);
+
     const admin = await this.repository.findOneBy({ id });
+
+    for (let index = 0; index < admin.enderecos.length; index++) {
+      this.enderecoRepository.update(
+        admin.enderecos[index].id,
+        enderecos[index],
+      );
+    }
+
     if (!admin) {
       throw new RecordNotFoundException();
     }

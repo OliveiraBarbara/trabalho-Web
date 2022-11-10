@@ -75,7 +75,10 @@ export class ClienteService {
     return cliente;
   }
 
-  async update(id: number, updateClienteDto: UpdateClienteDto) {
+  async update(
+    id: number,
+    updateClienteDto: UpdateClienteDto,
+  ): Promise<Cliente> {
     const { enderecos, preferencias, ...dadosUpdate } = updateClienteDto;
     await this.repository.update(id, dadosUpdate);
 

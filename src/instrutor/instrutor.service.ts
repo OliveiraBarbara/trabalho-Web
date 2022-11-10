@@ -79,8 +79,18 @@ export class InstrutorService {
     id: number,
     updateInstrutorDto: UpdateInstrutorDto,
   ): Promise<Instrutor> {
-    await this.repository.update(id, updateInstrutorDto);
+    const { enderecos, exercicios, academias, ...dadosUpdate } =
+      updateInstrutorDto;
+    await this.repository.update(id, dadosUpdate);
     const instrutor = await this.repository.findOneBy({ id });
+
+    for (let index = 0; index < instrutor.enderecos.length; index++) {
+      this.enderecoRepository.update(
+        instrutor.enderecos[index].id,
+        instrutor[index],
+      );
+    }
+
     if (!instrutor) {
       throw new RecordNotFoundException();
     }
